@@ -1,0 +1,388 @@
+<style>
+  .dashboard {
+    background: var(--light-gray-1, #fafafa);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .sidebar {
+    background-color: #457b9d;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    padding: 2.5rem 0 8.7rem;
+    width: 17%;
+  }
+
+  .logo {
+    width: 100%;
+    aspect-ratio: 1.36;
+    object-fit: contain;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: background 0.2s;
+  }
+
+  .nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-item img {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 2rem;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 1.2rem;
+    padding: 0.625rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: #fff;
+    border-radius: 0.875rem;
+    padding: 1.5rem;
+    box-shadow: 0 0.375rem 3.375rem rgba(0, 0, 0, 0.05);
+  }
+
+  .stat-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #202224;
+    margin-bottom: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.0625rem;
+    color: #202224;
+  }
+
+  .transactions-table {
+    background: #fff;
+    border-radius: 0.875rem;
+    padding: 1.5rem;
+    box-shadow: 0 0.375rem 3.375rem rgba(0, 0, 0, 0.05);
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 1rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 1rem;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .status-badge {
+    padding: 0.25rem 1rem;
+    border-radius: 0.3125rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .status-progress {
+    background: #ebd910;
+    color: #ebd910;
+  }
+
+  .status-completed {
+    background: #00b69b;
+    color: #00b69b;
+  }
+
+  .footer {
+    background: #457b9d;
+    color: #fff;
+    padding: 3rem 5rem;
+  }
+
+  .footer-content {
+    max-width: 70rem;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .footer-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .footer-contact {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .footer-contact img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .social-links img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  @media (max-width: 991px) {
+    .sidebar {
+      width: 100%;
+      padding: 1.5rem;
+    }
+
+    .main-content {
+      padding: 1rem;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .table-header,
+    .table-row {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .footer {
+      padding: 2rem 1rem;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="dashboard">
+  <aside class="sidebar">
+    <img
+      src="https://cdn.builder.io/api/v1/image/assets/TEMP/782d7328a056f1c36cce1c7659ce27a9c35ee591ef507b0cf9e83b6fc87d1e94?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+      alt="Company Logo"
+      class="logo"
+    />
+    <nav>
+      <a href="#" class="nav-item">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/167629c3b54925ee7919973ee90ceee16f3b174f1b3380571f904b3601321c01?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          alt=""
+          role="presentation"
+        />
+        Dashboard
+      </a>
+      <a href="#" class="nav-item">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/08076a7843c03b33404192027b86bafb180666a6d74bbcf3b819383304448d08?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          alt=""
+          role="presentation"
+        />
+        Transaksi
+      </a>
+      <a href="#" class="nav-item">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/08384debf6602a8e8b00fa6d3af3b78dbbd3d0a5b0db4ac304bd2550087f2082?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          alt=""
+          role="presentation"
+        />
+        History
+      </a>
+      <a href="#" class="nav-item">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/ee11e5fc19b44ac9a3ff912e1298678a455664b2809e2bce65d020267dfef112?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          alt=""
+          role="presentation"
+        />
+        Logout
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div class="search-bar">
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/ee11e5fc19b44ac9a3ff912e1298678a455664b2809e2bce65d020267dfef112?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+        alt=""
+        role="presentation"
+      />
+      <input type="search" placeholder="Search" aria-label="Search" />
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3 class="stat-title">Total Mitra</h3>
+        <div class="stat-value">10,293</div>
+      </div>
+      <div class="stat-card">
+        <h3 class="stat-title">Total Pemesanan</h3>
+        <div class="stat-value">21 Pesanan</div>
+      </div>
+      <div class="stat-card">
+        <h3 class="stat-title">Pemesanan Selesai</h3>
+        <div class="stat-value">13 Selesai</div>
+      </div>
+    </div>
+
+    <div class="transactions-table">
+      <div class="table-header">
+        <div>Jasa</div>
+        <div>Lokasi</div>
+        <div>Tanggal</div>
+        <div>Waktu</div>
+        <div>Pekerja</div>
+        <div>Payment</div>
+        <div>Status</div>
+      </div>
+
+      <div class="table-row">
+        <div>Pindahan</div>
+        <div>Bojong</div>
+        <div>04 Okt 2024</div>
+        <div>13:00</div>
+        <div>Rudi</div>
+        <div>Online</div>
+        <div><span class="status-badge status-progress">PROGRESS</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>Buang Sampah</div>
+        <div>Bojong</div>
+        <div>10 Jan 2024</div>
+        <div>14:00</div>
+        <div>Yanto</div>
+        <div>Cash</div>
+        <div><span class="status-badge status-progress">PROGRESS</span></div>
+      </div>
+
+      <!-- Additional rows following same pattern -->
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <div>
+          <h4 class="footer-title">INFORMASI HANDYGO</h4>
+          <div class="footer-links">
+            <a href="#">Beranda</a>
+            <a href="#">Layanan</a>
+            <a href="#">Tentang Kami</a>
+            <a href="#">Kontak Kami</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">HUBUNGI KAMI</h4>
+          <div class="footer-contact">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/3fb34669002aeb665512f6030c16ded91734e89d18a3d822723da56e9c046996?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+              alt=""
+              role="presentation"
+            />
+            <span>081316814112</span>
+          </div>
+          <div class="footer-contact">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/7cd24244686e2b9b49d9db7d9bb4bcf6985348142f9cb3d8e46ff90e1f2cc192?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+              alt=""
+              role="presentation"
+            />
+            <span>STT TERPADU NURUL FIKRI</span>
+          </div>
+          <div class="footer-contact">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/36c3088fdb525b518d4b1bfc1144b9d93c843d7ea300e2151469a0415c67537e?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+              alt=""
+              role="presentation"
+            />
+            <span>handygo@gmail.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>Made With Love By Finland All Right Reserved</div>
+        <div class="social-links">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/2e78ec95f74bc9942fe854435dedaef7731fcb83667edcfc162fea4aba2c6548?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+            alt="Facebook"
+            class="social-icon"
+          />
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/6057f9ec8cd1f24548a0f7618ac76d5beb19a56e5f2a538bb2d538825085d9a7?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+            alt="Twitter"
+            class="social-icon"
+          />
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

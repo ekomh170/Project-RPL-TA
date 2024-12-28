@@ -1,0 +1,450 @@
+<style>
+  .about-section {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: flex-start;
+    width: 100%;
+    padding-top: 17px;
+  }
+
+  .header {
+    display: flex;
+    width: 100%;
+    max-width: 1193px;
+    gap: 20px;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo {
+    width: 68px;
+    height: auto;
+    object-fit: contain;
+    alt: "Handy Go company logo";
+  }
+
+  .brand-name {
+    font: 700 24px/1 Montserrat, sans-serif;
+    color: #252b42;
+    letter-spacing: 0.1px;
+  }
+
+  .nav-container {
+    display: flex;
+    gap: 31px;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 19px;
+    color: #737373;
+    text-align: center;
+    line-height: 24px;
+  }
+
+  .nav-link {
+    padding: 0 8px;
+    cursor: pointer;
+  }
+
+  .cta-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #23a6f0;
+    color: #fff;
+    border-radius: 5px;
+    padding: 15px 25px;
+    cursor: pointer;
+  }
+
+  .cta-icon {
+    width: 12px;
+    height: auto;
+    alt: "";
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f7f7f9;
+    border: 1px solid #c5c5c5;
+    border-radius: 14px;
+    padding: 14px;
+    font: 500 18px Inter, sans-serif;
+    color: #000;
+  }
+
+  .user-avatar {
+    width: 19px;
+    height: auto;
+    alt: "User profile picture";
+  }
+
+  .hero-section {
+    display: flex;
+    gap: 37px;
+    padding: 58px 80px 9px;
+    background-color: #fff;
+    margin-top: 13px;
+  }
+
+  .hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    padding-top: 112px;
+  }
+
+  .hero-subtitle {
+    font: 700 16px Montserrat, sans-serif;
+    letter-spacing: 0.1px;
+    color: #252b42;
+  }
+
+  .hero-title {
+    font: 700 58px/1 Montserrat, sans-serif;
+    color: #252b42;
+  }
+
+  .hero-description {
+    font: 400 16px/30px Montserrat, sans-serif;
+    color: #737373;
+    text-align: center;
+  }
+
+  .hero-image {
+    width: 50%;
+    object-fit: contain;
+    alt: "Hero section illustration";
+  }
+
+  .team-section {
+    padding: 80px;
+    background-color: #fff;
+    text-align: center;
+  }
+
+  .team-header {
+    max-width: 864px;
+    margin: 0 auto;
+  }
+
+  .team-title {
+    font: 700 40px/1 Montserrat, sans-serif;
+    color: #252b42;
+    margin-bottom: 10px;
+  }
+
+  .team-subtitle {
+    font: 400 14px/1 Montserrat, sans-serif;
+    color: #737373;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 48px;
+  }
+
+  .team-card {
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .member-image {
+    width: 100%;
+    aspect-ratio: 0.72;
+    object-fit: cover;
+    alt: "Team member photo";
+  }
+
+  .member-info {
+    padding: 15px;
+    text-align: center;
+  }
+
+  .member-name {
+    font: 700 20px Montserrat, sans-serif;
+    color: #252b42;
+    margin-bottom: 10px;
+  }
+
+  .member-role {
+    font: 400 14px/1 Montserrat, sans-serif;
+    color: #737373;
+  }
+
+  .footer {
+    background-color: #457b9d;
+    color: #fff;
+    padding: 40px 80px;
+  }
+
+  .footer-content {
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .footer-column h3 {
+    font: 700 16px Montserrat, sans-serif;
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-link {
+    font: 400 14px/24px Montserrat, sans-serif;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .social-icon {
+    width: 24px;
+    height: 24px;
+    alt: "";
+  }
+
+  @media (max-width: 991px) {
+    .header {
+      padding: 0 20px;
+      flex-wrap: wrap;
+    }
+
+    .hero-section {
+      flex-direction: column;
+      padding: 40px 20px;
+    }
+
+    .hero-content {
+      padding-top: 40px;
+    }
+
+    .hero-title {
+      font-size: 40px;
+    }
+
+    .hero-image {
+      width: 100%;
+    }
+
+    .team-section {
+      padding: 40px 20px;
+    }
+
+    .team-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer {
+      padding: 40px 20px;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<main class="about-section">
+  <header class="header">
+    <div class="logo-wrapper">
+      <img
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfe0b0db027647e5428af4e441c2670afab9013de529947d80e8d5f315fc5b91?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+        class="logo"
+        alt="Handy Go company logo"
+      />
+      <span class="brand-name">Handy Go</span>
+    </div>
+
+    <nav class="nav-container" aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link">Beranda</a></li>
+        <li><a href="#" class="nav-link">Layanan</a></li>
+        <li><a href="#" class="nav-link">Tentang Kami</a></li>
+      </ul>
+
+      <button class="cta-button">
+        Daftar Mitra Baru
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/dd90e1931e3d169ebd5d987800e49c117f52fcfced99de3e1b6afc24955c9e4c?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          class="cta-icon"
+          alt=""
+        />
+      </button>
+
+      <div class="user-profile">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a8f6fb742d1d9688e28e9f3a21e875153e381c742ebf79e73d5b2a926cb2c7a7?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          class="user-avatar"
+          alt="User profile picture"
+        />
+        <span>Sardor</span>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <p class="hero-subtitle">Handy Go</p>
+      <h1 class="hero-title">Tentang Kami</h1>
+      <p class="hero-description">
+        Terkadang, kita bisa memprediksi gerakan benda besar, tetapi kekuatan
+        sebenarnya ada pada hal-hal kecil yang sering terabaikan. HandyGo hadir
+        untuk menangani tugas-tugas kecil dengan dampak besar, memastikan
+        kebutuhan harianmu terpenuhi dengan cepat dan mudah
+      </p>
+    </div>
+    <img
+      src="https://cdn.builder.io/api/v1/image/assets/TEMP/96169d549e38b7f6a1a9cedadec71aa9a85f06f062f63ce42c876d81b1305e53?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+      class="hero-image"
+      alt="Hero section illustration"
+    />
+  </section>
+
+  <section class="team-section">
+    <div class="team-header">
+      <h2 class="team-title">Meet Our Team</h2>
+      <p class="team-subtitle">Our talented team of professionals</p>
+    </div>
+
+    <div class="team-grid">
+      <article class="team-card">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/d3085cdff2099f9caecd9c4578625bb09f890daff2971de991db283aabe16688?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          class="member-image"
+          alt="Jerome Bell profile photo"
+        />
+        <div class="member-info">
+          <h3 class="member-name">Jerome Bell</h3>
+          <p class="member-role">IBM</p>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/9bd4815f50f09307264386608d60cd842c6c97d74d4c02d3934d29689fef0d10?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          class="member-image"
+          alt="Brooklyn Simmons profile photo"
+        />
+        <div class="member-info">
+          <h3 class="member-name">Brooklyn Simmons</h3>
+          <p class="member-role">eBay</p>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a6892d2bb90b30b076278b2bb43e704705eda48c5ede38e829c8edf2fdd2168d?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          class="member-image"
+          alt="Ronald Richards profile photo"
+        />
+        <div class="member-info">
+          <h3 class="member-name">Ronald Richards</h3>
+          <p class="member-role">Starbucks</p>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/2d8edb5b29980a1b839c3b1e6ba7c3d5024b9b5967e3afd3db7012c84f15d2e6?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          class="member-image"
+          alt="Floyd Miles profile photo"
+        />
+        <div class="member-info">
+          <h3 class="member-name">Floyd Miles</h3>
+          <p class="member-role">Facebook</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>INFORMASI HANDYGO</h3>
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="#" class="footer-link">Beranda</a>
+            <a href="#" class="footer-link">Layanan</a>
+            <a href="#" class="footer-link">Tentang Kami</a>
+            <a href="#" class="footer-link">Kontak Kami</a>
+          </nav>
+        </div>
+
+        <div class="footer-column">
+          <h3>HUBUNGI KAMI</h3>
+          <address class="footer-links">
+            <a href="tel:081316814112" class="footer-link">081316814112</a>
+            <span class="footer-link">STT TERPADU NURUL FIKRI</span>
+            <a href="mailto:handygo@gmail.com" class="footer-link"
+              >handygo@gmail.com</a
+            >
+          </address>
+        </div>
+
+        <div class="footer-column">
+          <div class="social-links">
+            <a href="#" aria-label="Visit our Facebook page">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/17bcccc746bff4f1527a2ac2f31dbe80796d23304fbb2009f3d48127570ef493?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+                class="social-icon"
+                alt=""
+              />
+            </a>
+            <a href="#" aria-label="Visit our Twitter page">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/5477eb6364f7d8d4159b322245980efde1484831af9550f751c8592616432176?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+                class="social-icon"
+                alt=""
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>

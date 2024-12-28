@@ -1,0 +1,151 @@
+<style>
+  .sidebar {
+    background-color: rgba(69, 123, 157, 1);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    color: #fff;
+    white-space: nowrap;
+    margin: 0 auto;
+    padding: 41px 0 139px;
+  }
+  .logo {
+    aspect-ratio: 1.36;
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    align-self: start;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 0;
+    aspect-ratio: 4.82;
+    margin-top: 8px;
+    width: 241px;
+    color: rgba(69, 123, 157, 1);
+    letter-spacing: 0.3px;
+    padding: 16px 70px;
+    font: 600 14px Nunito Sans, sans-serif;
+  }
+  .nav-icon {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .nav-link {
+    background-color: #fff;
+    z-index: 10;
+    display: flex;
+    margin-top: 15px;
+    gap: 19px;
+    padding: 18px 43px;
+  }
+  .nav-text {
+    letter-spacing: 0.3px;
+    flex-grow: 1;
+    width: 116px;
+    font: 600 14px Nunito Sans, sans-serif;
+  }
+  .nav-item-secondary {
+    background-color: #fff;
+    width: 240px;
+    max-width: 100%;
+    letter-spacing: 0.3px;
+    padding: 16px 70px;
+    font: 600 14px Nunito Sans, sans-serif;
+  }
+  .divider {
+    aspect-ratio: 250;
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    margin-top: 31px;
+  }
+  .footer-image {
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    margin-top: 431px;
+  }
+  .logout-button {
+    background-color: #fff;
+    margin-top: 19px;
+    width: 240px;
+    max-width: 100%;
+    letter-spacing: 0.3px;
+    padding: 16px 70px;
+    font: 600 14px Nunito Sans, sans-serif;
+  }
+  @media (max-width: 991px) {
+    .sidebar {
+      padding-bottom: 100px;
+      white-space: initial;
+    }
+    .logo {
+      margin-right: -17px;
+    }
+    .nav-item {
+      white-space: initial;
+      padding: 0 20px;
+    }
+    .nav-link {
+      white-space: initial;
+      margin: 0 -7px 0 8px;
+      padding: 0 20px;
+    }
+    .nav-item-secondary {
+      white-space: initial;
+      margin: 0 -7px 0 8px;
+      padding: 0 20px;
+    }
+    .footer-image {
+      margin-top: 40px;
+    }
+    .logout-button {
+      white-space: initial;
+      margin: 0 -7px 0 8px;
+      padding: 0 20px;
+    }
+  }
+</style>
+
+<nav class="sidebar" role="navigation" aria-label="Main Navigation">
+  <img
+    loading="lazy"
+    src="https://cdn.builder.io/api/v1/image/assets/TEMP/782d7328a056f1c36cce1c7659ce27a9c35ee591ef507b0cf9e83b6fc87d1e94?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+    class="logo"
+    alt="Company Logo"
+  />
+  <div class="nav-item" tabindex="0">
+    <img
+      loading="lazy"
+      src="https://cdn.builder.io/api/v1/image/assets/TEMP/167629c3b54925ee7919973ee90ceee16f3b174f1b3380571f904b3601321c01?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+      class="nav-icon"
+      alt=""
+    />
+    Dashboard
+  </div>
+  <div class="nav-link" tabindex="0">
+    <div class="nav-icon-wrapper"></div>
+    <div class="nav-text">Transaksi</div>
+  </div>
+  <div class="nav-item-secondary" tabindex="0">History</div>
+  <img
+    loading="lazy"
+    src="https://cdn.builder.io/api/v1/image/assets/TEMP/08076a7843c03b33404192027b86bafb180666a6d74bbcf3b819383304448d08?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+    class="divider"
+    alt=""
+  />
+  <img
+    loading="lazy"
+    src="https://cdn.builder.io/api/v1/image/assets/TEMP/08384debf6602a8e8b00fa6d3af3b78dbbd3d0a5b0db4ac304bd2550087f2082?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+    class="footer-image"
+    alt=""
+  />
+  <button class="logout-button">Logout</button>
+</nav>

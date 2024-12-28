@@ -1,0 +1,476 @@
+<style>
+  .profile-container {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: start;
+  }
+
+  .header-wrapper {
+    display: flex;
+    width: 100%;
+    padding: 17px 0 0;
+    flex-direction: column;
+  }
+
+  .nav-container {
+    align-self: center;
+    display: flex;
+    margin-left: 18px;
+    width: 100%;
+    max-width: 1193px;
+    gap: 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .logo-wrapper {
+    display: flex;
+    font-size: 24px;
+    color: var(--text-color, #252b42);
+    letter-spacing: 0.1px;
+    line-height: 1;
+  }
+
+  .logo-image {
+    aspect-ratio: 1.11;
+    object-fit: contain;
+    object-position: center;
+    width: 68px;
+  }
+
+  .logo-text {
+    align-self: start;
+    margin-top: 14px;
+  }
+
+  .nav-menu {
+    align-self: start;
+    display: flex;
+    gap: 31px;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 19px;
+    overflow: hidden;
+    color: var(--second-text-color, #737373);
+    text-align: center;
+    line-height: 24px;
+    justify-content: start;
+    margin: auto 0;
+  }
+
+  .nav-link {
+    align-self: stretch;
+    overflow: hidden;
+    padding: 0 8px;
+    cursor: pointer;
+  }
+
+  .partner-button {
+    align-items: center;
+    border-radius: 5px;
+    background: var(--primary-color, #23a6f0);
+    display: flex;
+    gap: 15px;
+    overflow: hidden;
+    justify-content: start;
+    padding: 15px 25px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .partner-icon {
+    aspect-ratio: 1.2;
+    object-fit: contain;
+    object-position: center;
+    width: 12px;
+    align-self: stretch;
+    margin: auto 0;
+  }
+
+  .user-profile {
+    border-radius: 14px;
+    background-color: #f7f7f9;
+    display: flex;
+    align-items: center;
+    color: var(--Text-color, #000);
+    letter-spacing: -0.18px;
+    justify-content: space-between;
+    padding: 14px;
+    font: 500 18px Inter, sans-serif;
+    border: 1px solid #c5c5c5;
+    cursor: pointer;
+  }
+
+  .user-avatar {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 19px;
+  }
+
+  .main-content {
+    background-color: #fafafa;
+    display: flex;
+    margin-top: 13px;
+    width: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: center;
+    padding: 38px 54px;
+  }
+
+  .profile-card {
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 30px rgba(170, 170, 170, 0.16);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 76px 80px 33px;
+  }
+
+  .profile-header {
+    display: flex;
+    width: 866px;
+    max-width: 100%;
+    gap: 40px 74px;
+    flex-wrap: wrap;
+  }
+
+  .profile-title {
+    color: var(--text-color, #252b42);
+    letter-spacing: 0.1px;
+    flex-grow: 1;
+    width: 142px;
+    font: 700 40px/0.8 Montserrat, sans-serif;
+  }
+
+  .profile-nav {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+    color: #717b8c;
+    justify-content: start;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-basis: auto;
+    font: 500 20px Manrope, sans-serif;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    color: #d74632;
+    font-weight: 700;
+    white-space: nowrap;
+    padding: 0 12px;
+    cursor: pointer;
+  }
+
+  .nav-indicator {
+    min-height: 0;
+    margin-top: 9px;
+    width: 100%;
+    border: 2px solid #d74632;
+  }
+
+  .photo-section {
+    color: #4c535f;
+    align-self: start;
+    margin: 29px 0 0 17px;
+    font: 500 16px Manrope, sans-serif;
+  }
+
+  .photo-upload {
+    border-radius: 18px;
+    background-color: #edf2f6;
+    display: flex;
+    width: 131px;
+    flex-direction: column;
+    align-items: center;
+    color: #4c535f;
+    text-align: center;
+    height: 131px;
+    padding: 25px 26px;
+    font: 500 12px Manrope, sans-serif;
+    border: 1px dashed #4c535f;
+    cursor: pointer;
+  }
+
+  .upload-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 36px;
+  }
+
+  .form-container {
+    display: flex;
+    margin-top: 75px;
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  .form-label {
+    color: #4c535f;
+    font-size: 16px;
+    font-family: Manrope, sans-serif;
+    font-weight: 500;
+  }
+
+  .form-input {
+    border-radius: 8px;
+    background-color: #fff;
+    margin-top: 11px;
+    font-size: 14px;
+    color: #8d98aa;
+    padding: 18px 12px;
+    border: 1px solid #e0e4ec;
+    width: 100%;
+  }
+
+  .save-button {
+    border-radius: 14px;
+    background-color: #3ab8ff;
+    align-self: center;
+    width: 372px;
+    max-width: 100%;
+    color: #fff;
+    text-align: center;
+    margin: 47px 0 0;
+    padding: 16px 70px;
+    font: 700 14px/2 Inter, sans-serif;
+    cursor: pointer;
+    border: none;
+  }
+
+  .footer {
+    background-color: #457b9d;
+    width: 100%;
+    color: #fff;
+    padding: 40px 80px;
+    font-family: Montserrat, sans-serif;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  .footer-text {
+    font-size: 14px;
+    letter-spacing: 0.2px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .social-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 991px) {
+    .header-wrapper,
+    .nav-container,
+    .main-content,
+    .profile-card,
+    .profile-header,
+    .form-container {
+      max-width: 100%;
+    }
+
+    .main-content {
+      padding: 20px;
+    }
+
+    .profile-card {
+      padding: 40px 20px;
+    }
+
+    .form-container {
+      flex-direction: column;
+    }
+
+    .form-group {
+      width: 100%;
+    }
+
+    .save-button {
+      width: 100%;
+      padding: 16px 20px;
+    }
+
+    .footer {
+      padding: 40px 20px;
+    }
+  }
+</style>
+
+<div class="profile-container">
+  <header class="header-wrapper">
+    <nav class="nav-container">
+      <div class="logo-wrapper">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfe0b0db027647e5428af4e441c2670afab9013de529947d80e8d5f315fc5b91?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          alt="HandyGo Logo"
+          class="logo-image"
+        />
+        <span class="logo-text">Handy Go</span>
+      </div>
+
+      <div class="nav-menu">
+        <div class="nav-links">
+          <a href="#" class="nav-link">Beranda</a>
+          <a href="#" class="nav-link">Layanan</a>
+          <a href="#" class="nav-link">Tentang Kami</a>
+        </div>
+
+        <button class="partner-button">
+          <span>Daftar Mitra Baru</span>
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb82dac221c1914a788216415a7b49d89dfdb1e6022ef55810fa8f5b0fec78ff?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+            alt=""
+            class="partner-icon"
+          />
+        </button>
+
+        <div class="user-profile" tabindex="0" role="button">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/a8f6fb742d1d9688e28e9f3a21e875153e381c742ebf79e73d5b2a926cb2c7a7?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+            alt="User Avatar"
+            class="user-avatar"
+          />
+          <span>Sardor</span>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="profile-card">
+      <div class="profile-header">
+        <h1 class="profile-title">PROFILE</h1>
+        <nav class="profile-nav">
+          <div class="nav-item" tabindex="0" role="tab">
+            <span>Profil</span>
+            <div class="nav-indicator"></div>
+          </div>
+          <div class="nav-item" tabindex="0" role="tab">
+            <span>Pemesanan</span>
+            <div class="nav-indicator"></div>
+          </div>
+          <div class="nav-item" tabindex="0" role="tab">
+            <span>History</span>
+            <div class="nav-indicator"></div>
+          </div>
+          <div class="nav-item" tabindex="0" role="tab">
+            <span>Ganti Password</span>
+            <div class="nav-indicator"></div>
+          </div>
+          <div class="nav-item" tabindex="0" role="tab">
+            <span>Logout</span>
+            <div class="nav-indicator"></div>
+          </div>
+        </nav>
+      </div>
+
+      <h2 class="photo-section">Photo Profile</h2>
+
+      <div class="photo-upload" tabindex="0" role="button">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/35a0f4c9c5b09a1639d7153ed2397864b8508287d8a43f84e6b179d1fbd8846d?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          alt=""
+          class="upload-icon"
+        />
+        <span>Upload your photo</span>
+      </div>
+
+      <form class="form-container">
+        <div class="form-group">
+          <label for="fullName" class="form-label">Nama Lengkap</label>
+          <input
+            type="text"
+            id="fullName"
+            class="form-input"
+            value="Aria Dillah"
+          />
+
+          <label for="whatsapp" class="form-label">Whatsapp</label>
+          <input
+            type="tel"
+            id="whatsapp"
+            class="form-input"
+            value="085814019209"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            class="form-input"
+            value="ariadilah05@gmail.com"
+          />
+
+          <label for="birthdate" class="form-label">Tanggal Lahir</label>
+          <input
+            type="date"
+            id="birthdate"
+            class="form-input"
+            value="2005-10-04"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="address" class="form-label">Alamat</label>
+          <textarea id="address" class="form-input">
+Jalan Raya Jasinga-Tenjo</textarea
+          >
+        </div>
+      </form>
+
+      <button type="submit" class="save-button">Simpan</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p class="footer-text">Made With Love By Finland All Right Reserved</p>
+      <div class="social-links">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/6f65ad4e7f2491ef25907a64cc61268817e8b9ea48455250a5ea18863818b047?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          alt="Social Media Icon"
+          class="social-icon"
+        />
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/795f0243dd95cdba3d539d0bb5210e9c91b6482a24fce418ec56db6ae4616b4e?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+          alt="Social Media Icon"
+          class="social-icon"
+        />
+      </div>
+    </div>
+  </footer>
+</div>

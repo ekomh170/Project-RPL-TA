@@ -1,0 +1,415 @@
+<style>
+  .login-container {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .login-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 900px;
+    width: 100%;
+  }
+
+  .background-image {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .overlay {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 132px 70px 0;
+  }
+
+  .content-wrapper {
+    width: 100%;
+    max-width: 997px;
+  }
+
+  .two-column-layout {
+    gap: 20px;
+    display: flex;
+  }
+
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: 50%;
+  }
+
+  .hero-content {
+    display: flex;
+    margin-top: 133px;
+    flex-direction: column;
+    color: #fff;
+    font: 700 39px/47px Zen Kaku Gothic Antique, -apple-system, Roboto,
+      Helvetica, sans-serif;
+  }
+
+  .hero-logo {
+    aspect-ratio: 2.53;
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .hero-text-wrapper {
+    align-self: end;
+    display: flex;
+    margin-top: -17px;
+    min-height: 158px;
+    width: 380px;
+    max-width: 100%;
+    flex-direction: column;
+    justify-content: start;
+  }
+
+  .hero-text {
+    min-height: 158px;
+    width: 100%;
+  }
+
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: 50%;
+    margin-left: 20px;
+  }
+
+  .login-form-container {
+    border-radius: 24px 24px 0 0;
+    background-color: #fafafa;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    font-family: Zen Kaku Gothic Antique, -apple-system, Roboto, Helvetica,
+      sans-serif;
+    width: 100%;
+    padding: 40px 0 68px;
+  }
+
+  .form-header {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    padding: 0 39px;
+  }
+
+  .welcome-text {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 23px;
+    color: #000;
+  }
+
+  .login-title {
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 44px;
+    color: #000;
+  }
+
+  .login-form {
+    display: flex;
+    margin-top: 17px;
+    width: 100%;
+    max-width: 380px;
+    flex-direction: column;
+  }
+
+  .form-group {
+    margin-bottom: 19px;
+  }
+
+  .input-wrapper {
+    border-radius: 8px;
+    border: 1px solid #424242;
+    padding: 14px 11px;
+    position: relative;
+  }
+
+  .input-label {
+    background-color: #fafafa;
+    font-size: 13px;
+    padding: 0 14px;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+  }
+
+  .form-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    line-height: 28px;
+  }
+
+  .password-input-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .toggle-password {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .forgot-password {
+    font-size: 13px;
+    color: #424242;
+    font-weight: 500;
+    text-decoration: none;
+    margin: 16px 0;
+    display: inline-block;
+  }
+
+  .login-button {
+    background-color: #212121;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 23px;
+    font-size: 13px;
+    font-weight: 700;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .divider {
+    text-align: center;
+    margin: 19px 0;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .social-login {
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 9px;
+    background: #fafafa;
+    cursor: pointer;
+    font-size: 13px;
+    color: #616161;
+  }
+
+  .social-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .signup-link {
+    margin-top: 106px;
+    font-size: 13px;
+    color: #212121;
+    text-align: center;
+  }
+
+  .partner-login {
+    margin-top: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #212121;
+    text-align: center;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  @media (max-width: 991px) {
+    .login-wrapper {
+      max-width: 100%;
+    }
+
+    .overlay {
+      max-width: 100%;
+      padding: 100px 20px 0;
+    }
+
+    .content-wrapper {
+      max-width: 100%;
+    }
+
+    .two-column-layout {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .left-column,
+    .right-column {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .hero-content {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+
+    .hero-logo {
+      max-width: 100%;
+    }
+
+    .hero-text-wrapper {
+      margin-right: 10px;
+    }
+
+    .login-form-container {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+
+    .form-header {
+      padding: 0 20px;
+    }
+
+    .signup-link {
+      margin-top: 40px;
+    }
+  }
+</style>
+
+<main class="login-container">
+  <div class="login-wrapper">
+    <img
+      src="https://cdn.builder.io/api/v1/image/assets/TEMP/cf64a1b91a378d195f07e9788b5485536e5119b23cdaba56f6678b80d92f8dcd?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+      alt=""
+      class="background-image"
+    />
+    <div class="overlay">
+      <div class="content-wrapper">
+        <div class="two-column-layout">
+          <div class="left-column">
+            <div class="hero-content">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/d9023b89-13c6-46c1-b51e-a7484da8ad76?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+                alt="Company Logo"
+                class="hero-logo"
+              />
+              <div class="hero-text-wrapper">
+                <h1 class="hero-text">
+                  Login dan temukan solusi terbaik untuk kebutuhan Anda.
+                </h1>
+              </div>
+            </div>
+          </div>
+
+          <div class="right-column">
+            <div class="login-form-container">
+              <div class="form-header">
+                <p class="welcome-text">SELAMAT DATANG KEMBALI</p>
+                <h2 class="login-title">Masuk Sebagai Admin</h2>
+              </div>
+
+              <form class="login-form" action="#" method="POST">
+                <div class="form-group">
+                  <div class="input-wrapper">
+                    <label for="email" class="input-label">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      class="form-input"
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-wrapper">
+                    <label for="password" class="input-label">Password</label>
+                    <div class="password-input-wrapper">
+                      <input
+                        type="password"
+                        id="password"
+                        class="form-input"
+                        required
+                      />
+                      <button
+                        type="button"
+                        class="toggle-password"
+                        aria-label="Toggle password visibility"
+                      >
+                        <img
+                          src="https://cdn.builder.io/api/v1/image/assets/TEMP/eae605f9e399be20872078baba9ab842ff740cacd9d757558dab4016c8373de6?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+                          alt=""
+                          class="social-icon"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="#" class="forgot-password">Lupa Password?</a>
+                <button type="submit" class="login-button">Masuk</button>
+              </form>
+
+              <div class="divider">Atau</div>
+
+              <div class="social-login">
+                <button type="button" class="social-button">
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/97c847c7226961eb9f43cdd3ed200e3a05296af32303c9bd5c6f54030b2bc027?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+                    alt=""
+                    class="social-icon"
+                  />
+                  <span>Login dengan Google</span>
+                </button>
+                <button type="button" class="social-button">
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/28b2774ab3415b86381f633202461babf8c680258c96c3d26e48c34c18592039?placeholderIfAbsent=true&apiKey=527ab5fed54c430cba7722370b2d3cd0"
+                    alt=""
+                    class="social-icon"
+                  />
+                  <span>Login dengan Facebook</span>
+                </button>
+              </div>
+
+              <p class="signup-link">
+                Pengguna Baru? <strong>DAFTAR DISINI</strong>
+              </p>
+              <a href="#" class="partner-login">LOGIN SEBAGAI MITRA</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
