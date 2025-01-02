@@ -1,113 +1,169 @@
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
+<!-- resources/views/layouts/navbar.blade.php -->
+
+<nav class="main-header navbar navbar-expand-lg navbar-orange">
+    <!-- Left Navbar Links -->
     <ul class="navbar-nav">
+        <!-- Menu Toggle Button -->
         <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="" class="nav-link">Contact</a>
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                <i class="fas fa-bars"></i>
+            </a>
         </li>
     </ul>
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-        <li class="nav-item">
-            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="fas fa-search"></i>
-            </a>
-            <div class="navbar-search-block">
-                <form class="form-inline" method="GET" action="">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" name="query"
-                            placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </li>
+    <!-- Toggler Button for Collapsing Navbar Links on Mobile -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+    </button>
 
-        <!-- Messages Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-comments"></i>
-                <span class="badge badge-danger navbar-badge">3</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src="{{ asset('admin/dist/img/user1-128x128.jpg') }}" alt="User Avatar"
-                            class="img-size-50 mr-3 img-circle">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                Brad Diesel
-                                <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                            </h3>
-                            <p class="text-sm">Call me whenever you can...</p>
-                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+    <!-- Search Bar (Display Only) -->
+    <form class="form-inline ml-3 d-none d-lg-flex" action="#" method="GET" onsubmit="return false;">
+        <div class="input-group input-group-sm">
+            <input class="form-control form-control-navbar" type="search" name="query" placeholder="Search"
+                aria-label="Search" readonly>
+            <div class="input-group-append">
+                <button class="btn btn-navbar" type="button" disabled>
+                    <i class="fas fa-search text-orange"></i>
+                </button>
             </div>
-        </li>
+        </div>
+    </form>
 
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-bell"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
+    <!-- Collapsible Right Navbar Links -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ml-auto">
+            <!-- Notification Dropdown (Static) -->
+            <li class="nav-item dropdown">
+                <a class="nav-link text-white position-relative" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell"></i>
+                    <!-- Static Badge for notification count -->
+                    <span class="badge badge-danger navbar-badge">3</span>
                 </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-            </div>
-        </li>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <span class="dropdown-header">3 Notifikasi</span>
+                    <div class="dropdown-divider"></div>
+                    <!-- Static Notification Items -->
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-envelope mr-2 text-primary"></i> Anda menerima pesan baru
+                        <span class="float-right text-muted text-sm">3 menit lalu</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-users mr-2 text-success"></i> 8 teman baru bergabung
+                        <span class="float-right text-muted text-sm">12 jam lalu</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-file mr-2 text-warning"></i> 2 laporan baru tersedia
+                        <span class="float-right text-muted text-sm">2 hari lalu</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">Lihat Semua Notifikasi</a>
+                </div>
+            </li>
 
-        <!-- User Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="fas fa-user-circle"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="{{ route('profile.edit') }}" class="dropdown-item">
-                    <i class="fas fa-user-cog mr-2"></i> Profile Settings
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="{{ route('logout') }}" class="dropdown-item"
+            <!-- Navigasi Utama -->
+            <li class="nav-item">
+                <a href="{{ route('dashboard') }}" class="nav-link text-white font-weight-bold">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('transactions.index') }}" class="nav-link text-white font-weight-bold">Transaksi</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('jobOrders.index') }}" class="nav-link text-white font-weight-bold">History</a>
+            </li>
+
+            <!-- Logout -->
+            <li class="nav-item">
+                <a href="{{ route('logout') }}" class="nav-link text-white font-weight-bold"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    Log out
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </div>
-        </li>
-
-        <!-- Fullscreen Button -->
-        <li class="nav-item">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
-        </li>
-    </ul>
+            </li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </ul>
+    </div>
 </nav>
+
+<!-- Custom Styles -->
+<style>
+    /* Navbar Custom */
+    .navbar-orange {
+        background-color: #F36B22;
+    }
+
+    .navbar-orange .nav-link {
+        color: white;
+        font-weight: bold;
+    }
+
+    .navbar-orange .nav-link:hover {
+        color: #ffe5d0;
+    }
+
+    /* Search Bar Styling */
+    .form-control-navbar {
+        border-radius: 20px;
+        background-color: #fff;
+        color: #F36B22;
+    }
+
+    .form-control-navbar[readonly] {
+        background-color: #fff;
+        cursor: not-allowed;
+    }
+
+    .btn-navbar {
+        background-color: white;
+        border: none;
+        border-radius: 50%;
+        padding: 6px 10px;
+    }
+
+    .btn-navbar:hover {
+        background-color: #ffe5d0;
+    }
+
+    /* Dropdown Menu Styling */
+    .dropdown-menu {
+        min-width: 250px;
+    }
+
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    /* Static Badge Styling */
+    .navbar-badge {
+        position: absolute;
+        top: 0.3rem;
+        right: 0.3rem;
+        font-size: 0.6rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .navbar-nav.ml-auto {
+            margin-left: 0;
+        }
+
+        .navbar-badge {
+            top: 0.5rem;
+            right: 1rem;
+        }
+
+        /* Adjust positioning for the notification badge on mobile */
+        .nav-link.position-relative {
+            padding-right: 1.5rem;
+        }
+
+        /* Optional: Adjust icon size on mobile */
+        .nav-link i {
+            font-size: 1.2rem;
+        }
+    }
+</style>
