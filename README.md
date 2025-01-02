@@ -1,66 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# HandyGo - Laravel + AdminLTE
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+HandyGo adalah aplikasi berbasis web yang dirancang untuk menghubungkan pengguna dengan penyedia jasa harian. Proyek ini menggunakan **Laravel** sebagai backend framework dan **AdminLTE** sebagai template frontend untuk admin.
 
-## About Laravel
+## Deskripsi Proyek yang Lebih Mendalam
+HandyGo dikembangkan untuk menjawab kebutuhan masyarakat dalam mendapatkan layanan bantuan harian yang cepat, terpercaya, dan terintegrasi. Latar belakang proyek ini adalah tantangan yang sering dihadapi oleh individu, seperti lansia, masyarakat sibuk, atau mereka yang memiliki keterbatasan fisik, dalam mengakses bantuan untuk aktivitas rutin, termasuk membersihkan rumah, belanja, atau mendampingi lansia. 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Masalah yang Diatasi**:
+1. **Keterbatasan akses layanan**: Banyak individu kesulitan menemukan penyedia jasa yang dapat dipercaya secara manual.
+2. **Efisiensi waktu**: Proses pencarian jasa secara tradisional memakan waktu lama dan sering kali tidak efisien.
+3. **Keamanan dan kepercayaan**: Pengguna memerlukan sistem yang menjamin kualitas dan keamanan jasa yang mereka pesan.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Solusi yang Ditawarkan oleh HandyGo**:
+- Platform berbasis web yang memungkinkan pengguna mencari dan memesan jasa dengan cepat dan aman.
+- Fitur notifikasi dan komunikasi real-time untuk memastikan koordinasi yang optimal antara pengguna dan penyedia jasa.
+- Sistem pembayaran terintegrasi dengan berbagai opsi, termasuk e-wallet, bank transfer, dan cash.
+- Review dan rating dari pengguna untuk meningkatkan transparansi dan kredibilitas penyedia jasa.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+HandyGo tidak hanya mempermudah pengguna mendapatkan layanan yang mereka butuhkan, tetapi juga menciptakan peluang kerja baru bagi penyedia jasa dengan akses pasar yang lebih luas.
 
-## Learning Laravel
+## Identitas Kampus dan Program Studi
+- **Kampus**: Sekolah Tinggi Teknologi Terpadu Nurul Fikri
+- **Program Studi**: Teknik Informatika
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Anggota Kelompok
+- **Eko Muchamad Haryono** - Scrum Master
+- **Muhammad Andhika Thata** - Product Owner
+- **Muhamad Sayyid Fadhil** - Developer
+- **Fairuz Shofyah Mumtaz** - Developer
+- **Najwa Nur Salimah** - Developer
+- **Aria Dillah** - Developer
+- **Muhammad Zen Alby** - Medkre
+- **Nurhayati** - Medkre
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Prasyarat
+Pastikan perangkat Anda memenuhi persyaratan berikut sebelum memulai pengembangan:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP >= 8.1
+- Composer
+- Node.js & npm
+- MySQL/MariaDB (atau database lain yang didukung Laravel)
+- Git
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Komponen AdminLTE
+AdminLTE digunakan sebagai template frontend. File utama template terletak di:
+- **resources/views/admin/**: Halaman admin berbasis AdminLTE.
+- **resources/js/**: Konfigurasi dan custom JS untuk AdminLTE.
 
-### Premium Partners
+Gunakan command berikut untuk membangun ulang asset jika Anda melakukan perubahan:
+```bash
+npm run build
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## Fitur yang Dikembangkan
+- Autentikasi (Register, Login, Logout)
+- Manajemen Pengguna
+- Manajemen Jasa dan Pesanan
+- Dasbor Admin menggunakan AdminLTE
+- Notifikasi Real-Time
+- Integrasi Pembayaran (e-Wallet, Bank Transfer, Cash)
+- Laporan dan Analitik untuk Admin
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Penjelasan Diagram
+1. **Use Case Diagram**:
+   Diagram ini menunjukkan interaksi utama antara pengguna, penyedia jasa, dan admin dengan fitur-fitur utama aplikasi seperti login, pengelolaan jasa, dan pembayaran. Aktor utama meliputi pengguna, penyedia jasa, dan admin, yang masing-masing memiliki akses ke fitur yang relevan.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. **Activity Diagram**:
+   Diagram ini menjelaskan alur proses utama, seperti login pengguna, pencarian jasa, registrasi penyedia jasa, hingga pembayaran layanan. Misalnya, pada login pengguna, sistem akan memvalidasi kredensial dengan database sebelum memberikan akses.
 
-## Security Vulnerabilities
+3. **Class Diagram**:
+   Diagram ini mendeskripsikan struktur statis aplikasi, mencakup entitas utama seperti Admin, Pengguna, Penyedia Jasa, Jasa, Transaksi, Pemesanan Jasa, dan Notifikasi. Relasi antar kelas meliputi:
+   - Satu pengguna dapat memiliki banyak transaksi (One-to-Many).
+   - Satu penyedia jasa dapat menawarkan banyak jasa (One-to-Many).
+   - Setiap transaksi terkait dengan satu pemesanan jasa (One-to-One).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. **Sequence Diagram**:
+   Diagram ini menggambarkan interaksi antar objek secara berurutan berdasarkan waktu, seperti bagaimana pengguna mencari layanan, penyedia jasa menerima pesanan, dan admin memproses transaksi. Contoh: Saat pengguna mengisi form pemesanan, data dikirim ke sistem untuk diteruskan kepada penyedia jasa yang sesuai.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Opsional
+Untuk memahami struktur proyek, Anda dapat melihat:
+- **app/**: Logika aplikasi (Controllers, Models, Middleware).
+- **resources/views/**: File tampilan blade Laravel.
+- **resources/js/**: File JavaScript untuk AdminLTE.
+- **public/**: Asset publik (CSS, JS, gambar).
+- **routes/**: File rute aplikasi (web.php, api.php).
+
+---
+
+## Lisensi
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
