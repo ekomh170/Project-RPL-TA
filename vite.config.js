@@ -9,6 +9,9 @@ export default defineConfig({
         }),
     ],
     server: {
-        https: true, // Menggunakan https untuk produksi
+        https: true, // Pastikan server development menggunakan HTTPS
+    },
+    build: {
+        assetsPublicPath: "/", // Gunakan path relatif jika perlu
     },
 });
