@@ -1,0 +1,6 @@
+Penjelasan Terkait Database Dengan Penamaan Beda & Hubungan Dengan Diagram Class :
+- Users, Terdiri Dari 3 Tabel Yang Di Satukan : Pengguna, Penyedia Jasa
+- Services : Jasa
+- Job Order : Pemesanan Jasa
+- Transactions : Transaksi
+- Notification : Notifikasi
