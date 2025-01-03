@@ -9,9 +9,15 @@ export default defineConfig({
         }),
     ],
     server: {
-        https: true, // Pastikan server development menggunakan HTTPS
+        https: true, // Pastikan development menggunakan HTTPS
+        proxy: {
+            // Pastikan app server juga dikelola dengan baik jika ada pengaturan proxy
+            "/app": "http://localhost", // Sesuaikan jika ada pengaturan backend server
+        },
     },
     build: {
-        assetsPublicPath: "/", // Gunakan path relatif jika perlu
+        // Public path untuk memastikan assets dihasilkan dengan base yang benar
+        assetsPublicPath: "/",
+        base: "/build/", // Set base path untuk assets
     },
 });
