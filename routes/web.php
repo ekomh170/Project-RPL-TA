@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobOrderController;
 use App\Http\Controllers\NotificationController;
@@ -17,7 +18,36 @@ use Illuminate\Support\Facades\Route;
 
 // Route Halaman Utama
 Route::get('/', function () {
-    return view('welcome');
+    return view('pengguna.index');
+});
+
+// Route Pengguna
+Route::get('/penggunaHandyGo', function () {
+    return view('pengguna.index');
+});
+
+Route::get('/penggunaHandyGo/tentangkami', function () {
+    return view('pengguna.tentangkami');
+});
+
+Route::get('/penggunaHandyGo/profile', function () {
+    return view('pengguna.profile');
+});
+
+Route::get('/penggunaHandyGo/layanan', function () {
+    return view('pengguna.layanan');
+});
+
+Route::get('/penggunaHandyGo/payment', function () {
+    return view('pengguna.payment');
+});
+
+Route::get('/penggunaHandyGo/pemesanan', function () {
+    return view('pengguna.pemesanan');
+});
+
+Route::get('/penggunaHandyGo/history', function () {
+    return view('pengguna.history');
 });
 
 // Route untuk Dashboard
@@ -58,6 +88,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
 
 // Include File Auth
 require __DIR__ . '/auth.php';

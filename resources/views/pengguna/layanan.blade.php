@@ -153,33 +153,52 @@
                     <nav>
                         <ul style="list-style: none; margin: 0; padding: 0; display: flex;">
                             <li style="margin-right: 20px;">
-                                <a href="index.html"
+                                <a href="{{ url('penggunaHandyGo') }}"
                                     style="text-decoration: none; color: #333; font-size: 16px;">Beranda</a>
                             </li>
+
                             <li style="margin-right: 20px;">
-                                <a href="layanan.html"
+                                <a href="{{ url('penggunaHandyGo/layanan') }}"
                                     style="text-decoration: none; color: #333; font-size: 16px;">Layanan</a>
                             </li>
+
                             <li style="margin-right: 20px;">
-                                <a href="tentangkami.html"
+                                <a href="{{ url('penggunaHandyGo/tentangkami') }}"
                                     style="text-decoration: none; color: #333; font-size: 16px;">Tentang Kami</a>
                             </li>
                         </ul>
                     </nav>
 
                     <!-- Button -->
-                    <a href="login.html"
-                        style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
-                        Daftar Mitra Baru <span style="margin-left: 8px;">→</span>
-                    </a>
+                    @if (Route::has('login'))
+                        @auth
+                            <!-- Button -->
+                            <a href="{{ url('/dashboard') }}"
+                                style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
+                                Dashboard
+                            </a>
 
-                    <!-- Profile -->
-                    <div
-                        style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
-                        <img src="{{ $assetFunction('pengguna/assets') }}/img/logo/user.jpg" alt="Profile"
-                            style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
-                        <a href="profile.html" style="text-decoration: none; font-size: 16px; color: #333;">Sardor</a>
-                    </div>
+                            <!-- Profile -->
+                            <div
+                                style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
+                                <img src="{{ $assetFunction('pengguna/assets') }}/img/logo/user.jpg" alt="Profile"
+                                    style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                                <a href="profile.html"
+                                    style="text-decoration: none; font-size: 16px; color: #333;">{{ Auth::user()->name }}</a>
+                            </div>
+                        @else
+                            <!-- Button -->
+                            <a href="{{ route('login') }}"
+                                style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
+                                Login
+                            </a>
+
+                            <a href="{{ route('register') }}"
+                                style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
+                                Registrasi
+                            </a>
+                        @endauth
+                    @endif
                 </div>
             </div>
         </div>
