@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +52,8 @@
             margin-top: 20px;
         }
 
-        table th, table td {
+        table th,
+        table td {
             padding: 10px;
             text-align: left;
             border: 1px solid #ddd;
@@ -80,45 +82,53 @@
             background-color: #28a745;
             color: #ffff;
         }
-
     </style>
 </head>
+
 <body>
     <header>
         <div style="background: #fff; padding: 10px 20px; border-bottom: 1px solid #ddd;">
-            <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto;">
+            <div
+                style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto;">
                 <!-- Left Section: Logo -->
                 <div>
                     <a href="#home">
-                        <img src="assets/img/logo/logohandygo.png" alt="Logo" style="height: 100px;">
+                        <img src="{{ $assetFunction('pengguna/assets') }}img/logo/logohandygo.png" alt="Logo"
+                            style="height: 100px;">
                     </a>
                 </div>
-    
+
                 <!-- Right Section: Navigation Links, Button, and Profile -->
                 <div style="display: flex; align-items: center;">
                     <!-- Navigation Links -->
                     <nav>
                         <ul style="list-style: none; margin: 0; padding: 0; display: flex;">
                             <li style="margin-right: 20px;">
-                                <a href="./index.html" style="text-decoration: none; color: #333; font-size: 16px;">Beranda</a>
+                                <a href="./index.html"
+                                    style="text-decoration: none; color: #333; font-size: 16px;">Beranda</a>
                             </li>
                             <li style="margin-right: 20px;">
-                                <a href="./layanan.html" style="text-decoration: none; color: #333; font-size: 16px;">Layanan</a>
+                                <a href="./layanan.html"
+                                    style="text-decoration: none; color: #333; font-size: 16px;">Layanan</a>
                             </li>
                             <li style="margin-right: 20px;">
-                                <a href="./tentangkami.html" style="text-decoration: none; color: #333; font-size: 16px;">Tentang Kami</a>
+                                <a href="./tentangkami.html"
+                                    style="text-decoration: none; color: #333; font-size: 16px;">Tentang Kami</a>
                             </li>
                         </ul>
                     </nav>
-    
+
                     <!-- Button -->
-                    <a href="./login.html" style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
+                    <a href="./login.html"
+                        style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
                         Daftar Mitra Baru <span style="margin-left: 8px;">→</span>
                     </a>
-    
+
                     <!-- Profile -->
-                    <div style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
-                        <img src="assets/img/logo/user.jpg" alt="Profile" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                    <div
+                        style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
+                        <img src="{{ $assetFunction('pengguna/assets') }}img/logo/user.jpg" alt="Profile"
+                            style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
                         <a href="./profile.html" style="text-decoration: none; font-size: 16px; color: #333;">Sardor</a>
                     </div>
                 </div>
@@ -237,22 +247,24 @@
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px;">
             <!-- Section 1: Support Info -->
             <div style="flex: 1; min-width: 200px;">
-                <h4 style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: white;">Butuh Bantuan? Hubungi Tim Support Kami</h4>
+                <h4 style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: white;">Butuh Bantuan?
+                    Hubungi Tim Support Kami</h4>
                 <p style="margin: 0 0 15px; font-size: 14px; color: white;">Senin - Minggu 06.00 - 22.00 (WIB)</p>
             </div>
             <!-- Kontak Kami Button -->
             <div style="min-width: 150px; text-align: right;">
-                <a href="https://wa.me/6281316814112" 
-                   style="background-color: #47A6CE; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block;">
+                <a href="https://wa.me/6281316814112"
+                    style="background-color: #47A6CE; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block;">
                     Kontak Kami
                 </a>
             </div>
         </div>
-    
+
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-top: 20px;">
             <!-- Section 2: Informasi HandyGo -->
             <div style="flex: 1; min-width: 200px;">
-                <h4 style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: white;">INFORMASI HANDYGO</h4>
+                <h4 style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: white;">INFORMASI HANDYGO
+                </h4>
                 <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
                     <li style="font-size: 14px; color: white;">Beranda</li>
                     <li style="font-size: 14px; color: white;">Layanan</li>
@@ -260,7 +272,7 @@
                     <li style="font-size: 14px; color: white;">Kontak Kami</li>
                 </ul>
             </div>
-    
+
             <!-- Section 3: Hubungi Kami -->
             <div style="flex: 1; min-width: 200px;">
                 <h4 style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: white;">HUBUNGI KAMI</h4>
@@ -270,21 +282,23 @@
                     <li style="font-size: 14px; color: white;">✉️ handygo@gmail.com</li>
                 </ul>
             </div>
-    
+
             <!-- Section 4: Disclaimer -->
             <div style="flex: 2; min-width: 250px;">
-                <p style="font-size: 14px; line-height: 1.8; margin: 0; color: white;">Handy Go tidak bertanggung jawab atas transaksi langsung yang dilakukan pelanggan dengan mitra (tidak melalui admin).</p>
+                <p style="font-size: 14px; line-height: 1.8; margin: 0; color: white;">Handy Go tidak bertanggung jawab
+                    atas transaksi langsung yang dilakukan pelanggan dengan mitra (tidak melalui admin).</p>
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <a href="#" style="font-size: 20px; color: white; text-decoration: none;">🌐</a>
                     <a href="#" style="font-size: 20px; color: white; text-decoration: none;">📸</a>
                 </div>
             </div>
         </div>
-    
+
         <!-- Bottom Section -->
         <div style="text-align: center; margin-top: 20px; font-size: 14px; color: #D1D9E0;">
             Made With Love By Capybara All Right Reserved
         </div>
     </footer>
 </body>
+
 </html>
