@@ -17,8 +17,9 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             ServicesTableSeeder::class,
             TransactionsTableSeeder::class,
-            JobOrdersTableSeeder::class,
             NotificationsTableSeeder::class,
+            PenyediaJasaSeeder::class,
+            JobOrderSeeder::class,
         ]);
     }
 }

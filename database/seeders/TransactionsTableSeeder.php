@@ -11,7 +11,7 @@ class TransactionsTableSeeder extends Seeder
     {
         for ($i = 1; $i <= 20; $i++) {
             DB::table('transactions')->insert([
-                'user_id' => rand(1, 20),
+                'user_id' => rand(1, 2),
                 'penyedia_jasa_id' => rand(1, 20),
                 'metode_pembayaran' => 'Transfer Bank',
                 'tanggal' => now()->subDays(rand(1, 30)),
