@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Service;
-use App\Models\Transaction;
 use App\Models\JobOrder;
+use App\Models\Transaction;
 
 class DashboardController extends Controller
 {
@@ -24,21 +23,25 @@ class DashboardController extends Controller
         $totalCompleted = Transaction::where('status', 'completed')->count(); // Total transaksi yang selesai
 
         // Total pendapatan (jika transaksi memiliki kolom 'harga_penawaran' pada job_orders)
-        $totalRevenue = JobOrder::sum('harga_penawaran');
+        $totalRevenue = JobOrder::sum('harga_penawaran'); // Menghitung total pendapatan berdasarkan harga penawaran
 
-        // Ambil data job order terbaru untuk tabel
-        $jobOrders = JobOrder::select(
-            'id',
-            'nama_jasa',
-            'nama_pekerja',
-            'tanggal_pelaksanaan',
-            'waktu',
-            'pembayaran',
-            'informasi_pembayaran'
-        )
-            ->orderBy('tanggal_pelaksanaan', 'desc')
-            ->limit(10)
+        // Ambil data job order terbaru untuk tabel dengan eager loading
+        $jobOrders = JobOrder::with(['user', 'penyediaJasa']) // Eager load relasi user dan penyedia jasa
+            ->select(
+                'id',
+                'nama_jasa',
+                'nama_pekerja',
+                'tanggal_pelaksanaan',
+                'waktu_kerja',
+                'pembayaran',
+                'informasi_pembayaran',
+                'status' // Pastikan status juga diambil
+            )
+            ->orderBy('tanggal_pelaksanaan', 'desc') // Mengurutkan berdasarkan tanggal pelaksanaan
+            ->limit(10) // Ambil 10 job order terbaru
             ->get();
+
+        // \dd($jobOrders);
 
         // Return view dengan data
         return view('admin.dashboard', compact(

@@ -75,10 +75,13 @@
                                 @foreach ($jobOrders as $order)
                                     <tr>
                                         <td>{{ $order->nama_jasa }}</td>
+                                        <!-- Lokasi di sini, jika lokasi ada pada tabel JobOrder -->
                                         <td>{{ $order->location ?? 'Bojong' }}</td>
+                                        <!-- Menggunakan lokasi atau default 'Bojong' -->
                                         <td>{{ \Carbon\Carbon::parse($order->tanggal_pelaksanaan)->format('d M Y') }}</td>
-                                        <td>{{ $order->waktu }}</td>
-                                        <td>{{ $order->nama_pekerja }}</td>
+                                        <td>{{ $order->waktu_kerja }}</td> <!-- Menggunakan waktu kerja dari jobOrder -->
+                                        <td>{{ $order->penyediajasa->nama ?? 'Tidak Ditemukan' }}</td>
+                                        <!-- Nama pekerja, melalui relasi penyediajasa -->
                                         <td>
                                             <span class="badge"
                                                 style="background-color: {{ $order->pembayaran == 'Online' ? '#d4edda' : '#f8d7da' }}; color: #000;">
