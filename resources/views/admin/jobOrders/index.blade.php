@@ -44,7 +44,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $jobOrder->pembayaran }}</td>
-                                <td>{{ $jobOrder->nama_pekerja }}</td>
+                                <td>{{ $jobOrder->penyediajasa->nama }}</td>
                                 <td>{{ $jobOrder->waktu_kerja }}</td>
                                 <td>{{ $jobOrder->nama_jasa }}</td>
                                 <td>{{ number_format($jobOrder->harga_penawaran, 2) }}</td>
@@ -90,11 +90,20 @@
                             <input type="text" name="pembayaran" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="nama_pekerja">Nama Pekerja</label>
-                            <input type="text" name="nama_pekerja" class="form-control" required>
+                            <label for="informasi_pembayaran">Informasi Pembayaran</label>
+                            <textarea name="informasi_pembayaran" class="form-control" required placeholder="Masukkan informasi pembayaran"></textarea>
+                        </div>
+                        <div class="col-12 mb-15">
+                            <label for="pekerja">Pilih Pekerja</label>
+                            <select class="form-control" name="nama_pekerja" required>
+                                <option hidden>Pilih Pekerja</option>
+                                @foreach ($pekerja as $p)
+                                    <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="waktu_kerja">Waktu Kerja</label>
+                            <label for="waktu_kerja">Waktu Kerja </label>
                             <input type="text" name="waktu_kerja" class="form-control" required>
                         </div>
                         <div class="form-group">
@@ -108,6 +117,17 @@
                         <div class="form-group">
                             <label for="tanggal_pelaksanaan">Tanggal Pelaksanaan</label>
                             <input type="date" name="tanggal_pelaksanaan" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select class="form-control" name="gender" required>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi">Deskripsi Pekerjaan</label>
+                            <textarea name="deskripsi" class="form-control" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
