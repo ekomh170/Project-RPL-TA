@@ -74,4 +74,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class, 'penyedia_jasa_id');
     }
+
+   
+    public function joborder()
+    {
+        return $this->hasMany(JobOrder::class, 'user_id');
+    }
+
+    public function penyediajasa()
+    {
+        return $this->hasOne(User::class, 'user_id');
+    }
 }
