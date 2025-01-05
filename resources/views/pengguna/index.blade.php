@@ -172,12 +172,6 @@
 
                     @if (Route::has('login'))
                         @auth
-                            <!-- Button -->
-                            <a href="{{ url('/dashboard') }}"
-                                style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
-                                Dashboard
-                            </a>
-
                             <!-- Profile -->
                             <div
                                 style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
@@ -186,28 +180,29 @@
                                 <a href="profile.html"
                                     style="text-decoration: none; font-size: 16px; color: #333;">{{ Auth::user()->name }}</a>
                             </div>
+
+                            <!-- Logout Button -->
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit"
+                                    style="text-decoration: none; background: #dc3545; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
+                                    Logout
+                                </button>
+                            </form>
                         @else
-                            <!-- Button -->
+                            <!-- Button Login -->
                             <a href="{{ route('login') }}"
                                 style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
                                 Login
                             </a>
 
+                            <!-- Button Registrasi -->
                             <a href="{{ route('register') }}"
                                 style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
                                 Registrasi
                             </a>
                         @endauth
                     @endif
-
-
-                    <!-- Profile -->
-                    <div
-                        style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
-                        <img src="{{ $assetFunction('pengguna/assets') }}/img/logo/user.jpg" alt="Profile"
-                            style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
-                        <a href="profile.html" style="text-decoration: none; font-size: 16px; color: #333;">Sardor</a>
-                    </div>
 
 
                 </div>

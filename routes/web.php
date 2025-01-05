@@ -5,6 +5,7 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobOrderController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PenyediaJasaController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
@@ -16,10 +17,21 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+// Route untuk Penyedia Jasa
+Route::get('/penyediajasa', [PenyediaJasaController::class, 'index'])->name('penyediajasa');
+Route::get('/penyediajasa/biodata', [PenyediaJasaController::class, 'index4'])->name('penyediajasa-informasi');
+Route::get('/penyediajasa/transaksi', [PenyediaJasaController::class, 'index2'])->name('penyediajasa-transaksi');
+Route::get('/penyediajasa/history', [PenyediaJasaController::class, 'index3'])->name('penyediajasa-history');
+Route::get('/dashboard/penyediajasa', [PenyediaJasaController::class, 'index'])->name('penyediajasa-admin');
+Route::post('/penyediajasa', [PenyediaJasaController::class, 'store'])->name('add-penyediajasa');
+Route::get('/dashboard/penyediajasa/detail/{penyediajasa}', [PenyediaJasaController::class, "show"])->name('detail-penyediajasa');
+// Route untuk Penyedia Jasa
+
 // Route Halaman Utama
 Route::get('/', function () {
     return view('pengguna.index');
-});
+})->name('pengguna');
+// Route Halaman Utama
 
 // Route Pengguna
 Route::get('/penggunaHandyGo', function () {
@@ -49,6 +61,7 @@ Route::get('/penggunaHandyGo/pemesanan', function () {
 Route::get('/penggunaHandyGo/history', function () {
     return view('pengguna.history');
 });
+// Route Pengguna
 
 // Route untuk Dashboard
 Route::middleware(['auth'])->group(function () {
@@ -80,6 +93,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/penyediajasa', [PenyediaJasaController::class, 'index'])->name('penyediajasa');
+    Route::post('/penyediajasa', [PenyediaJasaController::class, 'store'])->name('add-penyediajasa');
+    Route::delete('/penyediajasa/{penyediajasa}', [PenyediaJasaController::class, 'destroy'])->name('delete-penyediajasa');
 });
 
 // Route untuk Profile
