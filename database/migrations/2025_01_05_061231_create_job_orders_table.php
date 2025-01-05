@@ -14,14 +14,19 @@ return new class extends Migration
         Schema::create('job_orders', function (Blueprint $table) {
             $table->id();
             $table->string('pembayaran');
-            $table->string('nama_pekerja');
+            $table->unsignedBigInteger('nama_pekerja');
+            $table->foreign('nama_pekerja')->references('id')->on('penyedia_jasa')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->string('waktu_kerja');
             $table->string('nama_jasa');
             $table->decimal('harga_penawaran', 10, 2);
             $table->date('tanggal_pelaksanaan');
-            $table->string('waktu');
-            $table->string('gender');
-            $table->text('deskripsi');
+            $table->enum('gender', ['Laki-laki', 'Perempuan']);
+            $table->string('deskripsi');
             $table->string('informasi_pembayaran');
             $table->timestamps();
         });
