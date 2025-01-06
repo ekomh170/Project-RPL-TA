@@ -149,7 +149,7 @@
             <a href="{{ url('penggunaHandyGo/profile') }}" class="active">Profil</a>
             <a href="{{ url('penggunaHandyGo/pemesanan') }}">Pemesanan</a>
             <a href="{{ url('penggunaHandyGo/history') }}">History</a>
-            <a href="{{ url('penggunaHandyGo/logout') }}">Logout</a>
+            <a href="{{ url('penggunaHandyGo') }}">Logout</a>
         </div>
 
         <form>
