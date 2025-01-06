@@ -85,7 +85,7 @@
                                 style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
                                 <img src="{{ $assetFunction('pengguna/assets') }}/img/logo/user.jpg" alt="Profile"
                                     style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
-                                <a href="profile.html"
+                                <a href="{{ url('penggunaHandyGo/profile') }}"
                                     style="text-decoration: none; font-size: 16px; color: #333;">{{ Auth::user()->name }}</a>
                             </div>
 
