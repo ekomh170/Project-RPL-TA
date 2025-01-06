@@ -177,7 +177,7 @@
                                 style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
                                 <img src="{{ $assetFunction('pengguna/assets') }}/img/logo/user.jpg" alt="Profile"
                                     style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
-                                <a href="profile.html"
+                                <a href="{{ url('penggunaHandyGo/profile') }}"
                                     style="text-decoration: none; font-size: 16px; color: #333;">{{ Auth::user()->name }}</a>
                             </div>
 
@@ -218,7 +218,7 @@
                     <h3>Nemenin Olahraga</h3>
                     <p>Nemenin kamu olahraga menjadi lebih seru</p>
                     <p class="price">Mulai dari Rp. 130.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -229,7 +229,7 @@
                     <h3>Handy Food</h3>
                     <p>Bantu kamu beliin makanan, jangan lupa tulis rincian pesanan kamu ya!</p>
                     <p class="price">Mulai dari Rp. 65.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -243,7 +243,7 @@
                         cosplay untuk jadi SPG, nemenin nobar,
                         jagain di rumah sakit, melayani apa…</p>
                     <p class="price">Mulai dari Rp. 100.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -254,7 +254,7 @@
                     <h3>SPY/ Mata-mata</h3>
                     <p>Mitra yang menjadi mata-mata adalah mitra khusus. </p>
                     <p class="price">Mulai dari Rp. 360.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -267,7 +267,7 @@
                     <p>Buang sampah jadi lebih mudah pake
                         jasa santo suruh.</p>
                     <p class="price">Mulai dari Rp. 130.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -279,7 +279,7 @@
                     <h3>Bersihin teras</h3>
                     <p>Bantu kamu bersihin lingkungan depan rumah</p>
                     <p class="price">Mulai dari Rp. 100.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -293,7 +293,7 @@
                         bisa bantu angkat barang, pindahin
                         barang</p>
                     <p class="price">Mulai dari Rp. 200.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -305,7 +305,7 @@
                     <h3>Antar Jemput</h3>
                     <p>Bisa antar / jemput kamu, pacar kamu, barang, dokumen, sampai presiden!!</p>
                     <p class="price">Mulai dari Rp. 20.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -317,7 +317,7 @@
                     <h3>Angkut Barang</h3>
                     <p>Membantu mengangkat / memindahkan barang</p>
                     <p class="price">Mulai dari Rp. 100.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -329,7 +329,7 @@
                     <h3>Nemenin Kondangan</h3>
                     <p>Bantu kamu agar gak merasa kesepian waktu pergi ke acara kondangan</p>
                     <p class="price">Mulai dari Rp. 30.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -343,7 +343,7 @@
                         hunian: menyapu, mengepel,
                         mengelap. Membersihkan kaca, debu…</p>
                     <p class="price">Mulai dari Rp. 70.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>
@@ -355,7 +355,7 @@
                     <p>Bantu kamu untuk mengubur bangkai
                         hewan.</p>
                     <p class="price">Mulai dari Rp. 85.000</p>
-                    <a href="Payment.html">
+                    <a href="{{ url('penggunaHandyGo/payment') }}">
                         <button>Pilih Jasa</button>
                     </a>
                 </div>

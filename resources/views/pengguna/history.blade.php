@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handy Go - History</title>
+    @php
+        $assetFunction = app()->environment('local') ? 'asset' : 'secure_asset';
+    @endphp
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -93,7 +96,7 @@
                 <!-- Left Section: Logo -->
                 <div>
                     <a href="#home">
-                        <img src="{{ $assetFunction('pengguna/assets') }}img/logo/logohandygo.png" alt="Logo"
+                        <img src="{{ $assetFunction('pengguna/assets') }}/img/logo/logohandygo.png" alt="Logo"
                             style="height: 100px;">
                     </a>
                 </div>
@@ -139,10 +142,10 @@
     <div class="container">
         <h1>History</h1>
         <div class="tab-menu">
-            <a href="Profile.html">Profil</a>
-            <a href="Pemesanan.html">Pemesanan</a>
-            <a href="History.html" class="active">History</a>
-            <a href="#">Logout</a>
+            <a href="{{ url('penggunaHandyGo/profile') }}">Profil</a>
+            <a href="{{ url('penggunaHandyGo/pemesanan') }}">Pemesanan</a>
+            <a href="{{ url('penggunaHandyGo/history') }}" class="active">History</a>
+            <a href="{{ url('penggunaHandyGo/logout') }}">Logout</a>
         </div>
 
         <table>

@@ -141,10 +141,10 @@
     <div class="container">
         <h1>Pemesanan</h1>
         <div class="tab-menu">
-            <a href="Profile.html">Profil</a>
-            <a href="Pemesanan.html" class="active">Pemesanan</a>
-            <a href="History.html">History</a>
-            <a href="#">Logout</a>
+            <a href="{{ url('penggunaHandyGo/profile') }}">Profil</a>
+            <a href="{{ url('penggunaHandyGo/pemesanan') }}" class="active">Pemesanan</a>
+            <a href="{{ url('penggunaHandyGo/history') }}">History</a>
+            <a href="{{ url('penggunaHandyGo/logout') }}">Logout</a>
         </div>
 
         <table>

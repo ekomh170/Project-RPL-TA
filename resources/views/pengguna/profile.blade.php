@@ -143,10 +143,10 @@
     <div class="container">
         <h1>PROFILE</h1>
         <div class="tab-menu">
-            <a href="Profile.html" class="active">Profil</a>
-            <a href="Pemesanan.html">Pemesanan</a>
-            <a href="History.html">History</a>
-            <a href="">Logout</a>
+            <a href="{{ url('penggunaHandyGo/profile') }}" class="active">Profil</a>
+            <a href="{{ url('penggunaHandyGo/pemesanan') }}">Pemesanan</a>
+            <a href="{{ url('penggunaHandyGo/history') }}">History</a>
+            <a href="{{ url('penggunaHandyGo/logout') }}">Logout</a>
         </div>
 
         <form>

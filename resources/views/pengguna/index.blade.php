@@ -237,7 +237,7 @@
                                             lainnya,
                                             semuanya dalam satu platform.
                                         </p>
-                                        <a href="layanan.html" class="btn"
+                                        <a href="{{ url('penggunaHandyGo/layanan') }}" class="btn"
                                             style="margin-top: 25px; background-color: #1e90ff; color: #fff; padding: 20px 40px; font-size: 1.5rem; border-radius: 5px; text-decoration: none;">
                                             Pesan Sekarang
                                         </a>
@@ -359,7 +359,7 @@
                         <h3>Nemenin Olahraga</h3>
                         <p>Nemenin kamu olahraga menjadi lebih seru</p>
                         <p class="price">Mulai dari Rp. 130.000</p>
-                        <a href="Payment.html">
+                        <a href="{{ url('penggunaHandyGo/payment') }}">
                             <button>Pilih Jasa</button>
                         </a>
                     </div>
@@ -371,7 +371,7 @@
                         <h3>Handy Food</h3>
                         <p>Bantu kamu beliin makanan, jangan lupa tulis rincian pesanan kamu ya!</p>
                         <p class="price">Mulai dari Rp. 65.000</p>
-                        <a href="Payment.html">
+                        <a href="{{ url('penggunaHandyGo/payment') }}">
                             <button>Pilih Jasa</button>
                         </a>
                     </div>
@@ -385,19 +385,19 @@
                             cosplay untuk jadi SPG, nemenin nobar,
                             jagain di rumah sakit, melayani apa…</p>
                         <p class="price">Mulai dari Rp. 100.000</p>
-                        <a href="Payment.html">
+                        <a href="{{ url('penggunaHandyGo/payment') }}">
                             <button>Pilih Jasa</button>
                         </a>
                     </div>
                 </div>
                 <div class="service-card">
-                    <img src="/{{ $assetFunction('pengguna/assets') }}/img/img_Layanan/Jokowi_mantau.jpg"
+                    <img src="{{ $assetFunction('pengguna/assets') }}/img/img_Layanan/Jokowi_mantau.jpg"
                         alt="Handy Food">
                     <div class="content">
                         <h3>SPY/ Mata-mata</h3>
                         <p>Mitra yang menjadi mata-mata adalah mitra khusus. </p>
                         <p class="price">Mulai dari Rp. 360.000</p>
-                        <a href="Payment.html">
+                        <a href="{{ url('penggunaHandyGo/payment') }}">
                             <button>Pilih Jasa</button>
                         </a>
                     </div>
@@ -410,7 +410,7 @@
                         <p>Buang sampah jadi lebih mudah pake
                             jasa santo suruh.</p>
                         <p class="price">Mulai dari Rp. 130.000</p>
-                        <a href="Payment.html">
+                        <a href="{{ url('penggunaHandyGo/payment') }}">
                             <button>Pilih Jasa</button>
                         </a>
                     </div>
@@ -422,7 +422,7 @@
                         <h3>Bersihin teras</h3>
                         <p>Bantu kamu bersihin lingkungan depan rumah</p>
                         <p class="price">Mulai dari Rp. 100.000</p>
-                        <a href="Payment.html">
+                        <a href="{{ url('penggunaHandyGo/payment') }}">
                             <button>Pilih Jasa</button>
                         </a>
                     </div>

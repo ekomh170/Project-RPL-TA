@@ -321,7 +321,8 @@
                         <label for="terms">Saya setuju dengan <a href="#">Syarat & Ketentuan</a></label>
                     </div><br><br><br>
 
-                    <button type="button" onclick="location.href='Pemesanan.html'">Submit</button>
+                    <button type="button"
+                        onclick="location.href='{{ url('penggunaHandyGo/pemesanan') }}'">Submit</button>
 
                 </form>
             </div>
