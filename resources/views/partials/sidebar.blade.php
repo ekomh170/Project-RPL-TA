@@ -1,7 +1,7 @@
 <aside class="main-sidebar elevation-4" style="background-color: #457B9D;">
     <!-- Logo Handy Go -->
     <a href="{{ route('dashboard') }}" class="brand-link text-center" style="background-color: #457B9D;">
-        <img src="{{ asset('admin/dist/img/logo/handygo.png') }}" alt="Logo Handy Go" class="img-fluid"
+        <img src="{{ asset('admin/dist/img/logo/handygo2.png') }}" alt="Logo Handy Go" class="img-fluid"
             style="max-width: 100%; border-radius: 50%; margin-top: -20px; margin-bottom: -40px;">
     </a>
 
@@ -27,19 +27,31 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <!-- Menu Dashboard -->
-                <li class="nav-item">
-                    <a href="{{ route('dashboard') }}"
-                        class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-                        style="{{ request()->routeIs('dashboard') ? 'background-color: #FFFFFF; color: #457B9D;' : 'color: #FFFFFF;' }}">
-                        <i class="nav-icon fas fa-clock"
-                            style="{{ request()->routeIs('dashboard') ? 'color: #457B9D;' : 'color: #FFFFFF;' }}"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
+                @if (auth()->user()->role === 'admin')
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}"
+                            class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                            style="{{ request()->routeIs('dashboard') ? 'background-color: #FFFFFF; color: #457B9D;' : 'color: #FFFFFF;' }}">
+                            <i class="nav-icon fas fa-clock"
+                                style="{{ request()->routeIs('dashboard') ? 'color: #457B9D;' : 'color: #FFFFFF;' }}"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                @endif
+
 
                 <!-- Menu untuk Role Penyedia Jasa -->
                 @if (auth()->user()->role === 'penyedia_jasa')
                     <!-- Menu Riwayat Pemesanan -->
+                    <li class="nav-item">
+                        <a href="{{ route('penyediajasa') }}"
+                            class="nav-link {{ request()->routeIs('penyediajasa') ? 'active' : '' }}"
+                            style="{{ request()->routeIs('penyediajasa') ? 'background-color: #FFFFFF; color: #457B9D;' : 'color: #FFFFFF;' }}">
+                            <i class="nav-icon fas fa-clock"
+                                style="{{ request()->routeIs('penyediajasa') ? 'color: #457B9D;' : 'color: #FFFFFF;' }}"></i>
+                            <p>Penyedia Dashboard</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('penyediajasa-informasi') }}"
                             class="nav-link {{ request()->routeIs('penyediajasa-informasi') ? 'active' : '' }}"
