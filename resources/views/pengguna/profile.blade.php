@@ -107,15 +107,17 @@
                     <nav>
                         <ul style="list-style: none; margin: 0; padding: 0; display: flex;">
                             <li style="margin-right: 20px;">
-                                <a href="./index.html"
+                                <a href="{{ url('penggunaHandyGo') }}"
                                     style="text-decoration: none; color: #333; font-size: 16px;">Beranda</a>
                             </li>
+
                             <li style="margin-right: 20px;">
-                                <a href="./layanan.html"
+                                <a href="{{ url('penggunaHandyGo/layanan') }}"
                                     style="text-decoration: none; color: #333; font-size: 16px;">Layanan</a>
                             </li>
+
                             <li style="margin-right: 20px;">
-                                <a href="./tentangkami.html"
+                                <a href="{{ url('penggunaHandyGo/tentangkami') }}"
                                     style="text-decoration: none; color: #333; font-size: 16px;">Tentang Kami</a>
                             </li>
                         </ul>
