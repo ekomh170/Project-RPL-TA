@@ -46,7 +46,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Relasi dengan model Transaction.
+     * Relasi dengan model Transaction sebagai customer.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -56,7 +56,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Relasi dengan model Notification.
+     * Relasi dengan model Notification sebagai recipient.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -66,23 +66,22 @@ class User extends Authenticatable
     }
 
     /**
-     * Relasi dengan model Transaction sebagai penyedia jasa.
+     * Relasi dengan model JobOrder sebagai customer.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function providedTransactions()
-    {
-        return $this->hasMany(Transaction::class, 'penyedia_jasa_id');
-    }
-
-   
-    public function joborder()
+    public function jobOrders()
     {
         return $this->hasMany(JobOrder::class, 'user_id');
     }
 
+    /**
+     * Relasi dengan model PenyediaJasa (one-to-one).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function penyediajasa()
     {
-        return $this->hasOne(User::class, 'user_id');
+        return $this->hasOne(PenyediaJasa::class, 'user_id');
     }
 }
