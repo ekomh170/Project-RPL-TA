@@ -42,21 +42,26 @@ class JobOrderSeeder extends Seeder
 
         // Loop untuk memasukkan beberapa record
         foreach (range(1, 10) as $index) {
+            // Ambil service secara acak
+            $service = \App\Models\Service::inRandomOrder()->first();
+            $penyediaJasa = \App\Models\PenyediaJasa::inRandomOrder()->first();
+
             DB::table('job_orders')->insert([
                 'pembayaran' => $faker->randomElement(['Tunai', 'Transfer Bank']),
-                'nama_pekerja' => \App\Models\PenyediaJasa::inRandomOrder()->first()->id,  // Ambil penyedia jasa secara acak
-                'user_id' => \App\Models\User::inRandomOrder()->first()->id,  // Ambil user_id secara acak dari tabel 'users'
+                'penyedia_jasa_id' => $penyediaJasa->id,  // Gunakan nama field yang baru
+                'service_id' => $service->id,  // Tambah relasi ke service
+                'user_id' => \App\Models\User::where('role', 'pengguna')->inRandomOrder()->first()->id,  // Hanya pengguna biasa
                 'waktu_kerja' => $faker->time(),
-                'nama_jasa' => $faker->randomElement($namaJasaList),  // Pilih nama jasa secara acak dari daftar yang diberikan
-                'harga_penawaran' => $faker->randomFloat(2, 100000, 1000000),
-                'tanggal_pelaksanaan' => $faker->date(),
+                'nama_jasa' => $service->nama_jasa,  // Ambil dari service yang dipilih
+                'harga_penawaran' => $service->harga + $faker->randomFloat(2, -50000, 100000),  // Variasi dari harga service
+                'tanggal_pelaksanaan' => $faker->dateTimeBetween('now', '+30 days'),
                 'gender' => $faker->randomElement(['Laki-laki', 'Perempuan']),
-                'deskripsi' => $faker->sentence,
+                'deskripsi' => $faker->paragraph(2),
                 'informasi_pembayaran' => $faker->sentence,
                 'nomor_telepon' => $faker->phoneNumber,
-                'bukti' => $faker->imageUrl(),
-                'status' => $faker->randomElement(['Selesai', 'Batal']),
-                'created_at' => now(),
+                'bukti' => $faker->optional(0.3)->imageUrl(640, 480, 'business'),  // 30% chance ada bukti
+                'status' => $faker->randomElement(['Pending', 'Diterima', 'Dalam Proses', 'Selesai', 'Dibatalkan']),
+                'created_at' => $faker->dateTimeBetween('-30 days', 'now'),
                 'updated_at' => now(),
             ]);
         }
