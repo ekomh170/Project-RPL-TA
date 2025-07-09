@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\PenyediaJasa;
 use App\Models\User;
+use App\Models\Service;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
 class PenyediaJasaSeeder extends Seeder
@@ -15,27 +15,62 @@ class PenyediaJasaSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create('id_ID'); // Menggunakan locale Indonesia untuk Faker
+        $faker = Faker::create('id_ID');
 
-        // Loop untuk memasukkan beberapa record
-        foreach (range(1, 10) as $index) {
-            // Memastikan memilih pengguna dengan role 'penyedia_jasa' yang valid
-            $user = User::where('role', 'penyedia_jasa')->inRandomOrder()->first();
+        // Ambil semua user dengan role penyedia_jasa yang aktif
+        $penyediaUsers = User::where('role', 'penyedia_jasa')
+            ->where('status', 'aktif')
+            ->get();
 
-            if ($user) {
-                DB::table('penyedia_jasa')->insert([
-                    'nama' => $faker->name, // Nama acak dari Faker
-                    'foto' => $faker->imageUrl(), // Foto acak dari Faker
-                    'user_id' => $user->id,  // Mengambil user_id dari pengguna dengan role penyedia_jasa
-                    'email' => $faker->unique()->safeEmail, // Email acak dari Faker
-                    'telpon' => $faker->phoneNumber, // Nomor telepon acak dari Faker
-                    'gender' => $faker->randomElement(['Laki-Laki', 'Perempuan']), // Gender acak
-                    'alamat' => $faker->address, // Alamat acak
-                    'tanggal_lahir' => $faker->date(), // Tanggal lahir acak
+        foreach ($penyediaUsers as $user) {
+            // Buat profil penyedia jasa
+            $penyediaJasa = PenyediaJasa::create([
+                'user_id' => $user->id,
+                'verification_status' => $faker->randomElement(['pending', 'verified', 'rejected']),
+                'verification_documents' => $faker->sentence(10),
+                'experience' => $faker->paragraph(3),
+                'rating_average' => $faker->randomFloat(2, 3.0, 5.0),
+                'total_reviews' => $faker->numberBetween(0, 50),
+            ]);
+
+            // Assign beberapa service random ke penyedia ini (many-to-many)
+            $services = Service::where('status', 'tersedia')
+                ->inRandomOrder()
+                ->limit($faker->numberBetween(2, 5))
+                ->get();
+
+            foreach ($services as $service) {
+                // Attach service dengan pivot data
+                $penyediaJasa->services()->attach($service->id, [
+                    'custom_price' => $faker->boolean(70) ? $faker->numberBetween(
+                        $service->price * 0.8,
+                        $service->price * 1.2
+                    ) : null,
+                    'is_available' => $faker->boolean(85), // 85% available
+                    'notes' => $faker->boolean(50) ? $faker->sentence(8) : null,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
             }
         }
+
+        // Buat beberapa penyedia jasa tambahan untuk user pending
+        $pendingUsers = User::where('role', 'penyedia_jasa')
+            ->where('status', 'pending')
+            ->limit(5)
+            ->get();
+
+        foreach ($pendingUsers as $user) {
+            PenyediaJasa::create([
+                'user_id' => $user->id,
+                'verification_status' => 'pending',
+                'verification_documents' => 'Dokumen belum lengkap',
+                'experience' => $faker->paragraph(2),
+                'rating_average' => 0,
+                'total_reviews' => 0,
+            ]);
+        }
+
+        $this->command->info('✅ PenyediaJasa seeded successfully with service relationships!');
     }
 }

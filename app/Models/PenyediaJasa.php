@@ -11,6 +11,13 @@ class PenyediaJasa extends Model
     use HasFactory, SoftDeletes;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'penyedia_jasa';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 
@@ -14,57 +14,63 @@ class UsersTableSeeder extends Seeder
         // Menggunakan Faker dengan lokal Indonesia
         $faker = Faker::create('id_ID');
 
-        // Menambahkan akun khusus untuk Eko Muchamad Haryono
-        DB::table('users')->insert([
-            'username' => 'ekoharyono',
+        // Akun khusus untuk testing dan development
+        User::create([
             'name' => 'Eko Muchamad Haryono',
             'email' => 'ekomh13@example.com',
+            'phone' => '081234567891',
             'password' => Hash::make('admin2829'),
-            'nomor_wa' => '081234567891',
-            'alamat_lengkap' => 'Alamat Khusus Eko',
-            'role' => 'admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('users')->insert([
-            'username' => 'sofi',
-            'name' => 'Sofi',
-            'email' => 'sofi@example.com',
-            'password' => Hash::make('jasa2829'),
-            'nomor_wa' => '081234567891',
-            'alamat_lengkap' => 'Alamat Khusus Fadil',
-            'role' => 'penyedia_jasa',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('users')->insert([
-            'username' => 'andhika',
-            'name' => 'Andhika',
-            'email' => 'andhika@example.com',
-            'password' => Hash::make('pengguna2829'),
-            'nomor_wa' => '081234567891',
-            'alamat_lengkap' => 'Alamat Khusus Andhika',
+            'address' => 'Jl. Merdeka No. 123, Jakarta Pusat',
             'role' => 'pengguna',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'status' => 'aktif',
         ]);
 
-        // Menambahkan akun untuk 20 pengguna dengan nama Indonesia menggunakan Faker
-        $roles = ['admin', 'penyedia_jasa', 'pengguna'];
+        User::create([
+            'name' => 'Sofi Penyedia Jasa',
+            'email' => 'sofi@example.com',
+            'phone' => '081234567892',
+            'password' => Hash::make('jasa2829'),
+            'address' => 'Jl. Sudirman No. 456, Jakarta Selatan',
+            'role' => 'penyedia_jasa',
+            'status' => 'aktif',
+        ]);
+
+        User::create([
+            'name' => 'Andhika Pengguna',
+            'email' => 'andhika@example.com',
+            'phone' => '081234567893',
+            'password' => Hash::make('pengguna2829'),
+            'address' => 'Jl. Thamrin No. 789, Jakarta Pusat',
+            'role' => 'pengguna',
+            'status' => 'aktif',
+        ]);
+
+        // Generate 20 pengguna (customers) dengan data Indonesia
         for ($i = 1; $i <= 20; $i++) {
-            DB::table('users')->insert([
-                'username' => "user$i",
-                'name' => $faker->name, // Menggunakan Faker untuk nama acak Indonesia
-                'email' => "user$i@example.com",
-                'password' => Hash::make('password'),
-                'nomor_wa' => '08123456789' . $i,
-                'alamat_lengkap' => $faker->address, // Menggunakan alamat acak dari Faker
-                'role' => $roles[array_rand($roles)], // Memilih role acak
-                'created_at' => now(),
-                'updated_at' => now(),
+            User::create([
+                'name' => $faker->name,
+                'email' => "pengguna{$i}@example.com",
+                'phone' => '0812345678' . str_pad($i, 2, '0', STR_PAD_LEFT),
+                'password' => Hash::make('password123'),
+                'address' => $faker->address,
+                'role' => 'pengguna',
+                'status' => $faker->randomElement(['aktif', 'pending']),
             ]);
         }
+
+        // Generate 15 penyedia jasa dengan data Indonesia
+        for ($i = 1; $i <= 15; $i++) {
+            User::create([
+                'name' => $faker->name,
+                'email' => "provider{$i}@example.com",
+                'phone' => '0812345679' . str_pad($i, 2, '0', STR_PAD_LEFT),
+                'password' => Hash::make('password123'),
+                'address' => $faker->address,
+                'role' => 'penyedia_jasa',
+                'status' => $faker->randomElement(['aktif', 'pending', 'nonaktif']),
+            ]);
+        }
+
+        $this->command->info('✅ Users seeded successfully with new migration structure!');
     }
 }

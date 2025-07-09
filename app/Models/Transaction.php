@@ -69,13 +69,27 @@ class Transaction extends Model
     private function generateTransactionCode(): string
     {
         $date = now()->format('Ymd');
-        $lastTransaction = static::whereDate('created_at', today())
-            ->orderBy('id', 'desc')
+
+        // Ambil transaction terakhir berdasarkan transaction_code, bukan created_at
+        $lastTransaction = static::where('transaction_code', 'like', 'TRX-' . $date . '-%')
+            ->orderBy('transaction_code', 'desc')
             ->first();
 
-        $sequence = $lastTransaction ? intval(substr($lastTransaction->transaction_code, -4)) + 1 : 1;
+        $sequence = 1;
+        if ($lastTransaction) {
+            $lastSequence = intval(substr($lastTransaction->transaction_code, -4));
+            $sequence = $lastSequence + 1;
+        }
 
-        return 'TRX-' . $date . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+        $transactionCode = 'TRX-' . $date . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+
+        // Pastikan tidak ada duplikat
+        while (static::where('transaction_code', $transactionCode)->exists()) {
+            $sequence++;
+            $transactionCode = 'TRX-' . $date . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+        }
+
+        return $transactionCode;
     }
 
     /**

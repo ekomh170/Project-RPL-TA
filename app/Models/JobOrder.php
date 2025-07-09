@@ -69,13 +69,27 @@ class JobOrder extends Model
     private function generateOrderCode(): string
     {
         $date = now()->format('Ymd');
-        $lastOrder = static::whereDate('created_at', today())
-            ->orderBy('id', 'desc')
+
+        // Ambil order terakhir berdasarkan order_code, bukan created_at
+        $lastOrder = static::where('order_code', 'like', 'JO-' . $date . '-%')
+            ->orderBy('order_code', 'desc')
             ->first();
 
-        $sequence = $lastOrder ? intval(substr($lastOrder->order_code, -4)) + 1 : 1;
+        $sequence = 1;
+        if ($lastOrder) {
+            $lastSequence = intval(substr($lastOrder->order_code, -4));
+            $sequence = $lastSequence + 1;
+        }
 
-        return 'JO-' . $date . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+        $orderCode = 'JO-' . $date . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+
+        // Pastikan tidak ada duplikat
+        while (static::where('order_code', $orderCode)->exists()) {
+            $sequence++;
+            $orderCode = 'JO-' . $date . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+        }
+
+        return $orderCode;
     }
 
     /**
