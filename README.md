@@ -43,6 +43,20 @@ Pastikan perangkat Anda memenuhi persyaratan berikut sebelum memulai pengembanga
 
 ---
 
+## 📚 Dokumentasi Optimasi Database & Model
+
+Proyek ini telah melalui proses optimasi database dan model yang komprehensif. Seluruh dokumentasi tersedia di:
+
+**📁 [`docs/plan/`](./docs/plan/)** - Dokumentasi lengkap optimasi proyek
+
+### Quick Links:
+- 🎯 [**Project Summary**](./docs/plan/reports/project-summary.md) - Ringkasan lengkap optimasi
+- 📊 [**Final ERD**](./docs/plan/erd/final-model-erd.md) - Entity Relationship Diagram final
+- 🛠️ [**Implementation Guide**](./docs/plan/reports/implementation-guide.md) - Panduan implementasi
+- 🔧 [**Model Relationships**](./docs/plan/models/relationships.md) - Dokumentasi relasi model
+
+---
+
 ## Komponen AdminLTE
 AdminLTE digunakan sebagai template frontend. File utama template terletak di:
 - **resources/views/admin/**: Halaman admin berbasis AdminLTE.
