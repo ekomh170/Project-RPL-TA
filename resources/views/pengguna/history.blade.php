@@ -1,310 +1,539 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('pengguna.layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handy Go - History</title>
-    @php
-        $assetFunction = app()->environment('local') ? 'asset' : 'secure_asset';
-    @endphp
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-        }
+@section('content')
+    @push('styles')
+        <style>
+            /* Page Header */
+            .page-header {
+                background: linear-gradient(135deg, #3ab8ff 0%, #377D98 100%);
+                color: white;
+                padding: 60px 0;
+                position: relative;
+            }
 
+            /* Order Card */
+            .order-card {
+                background: white;
+                border-radius: 15px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+                overflow: hidden;
+                transition: all 0.3s ease;
+                border: 1px solid #f0f0f0;
+            }
 
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+            .order-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            }
 
-        .container h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+            .order-header {
+                background: #f8f9fa;
+                padding: 15px 20px;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
 
-        .tab-menu {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
-        }
+            .order-id {
+                font-weight: 600;
+                color: #333;
+                font-size: 0.95rem;
+            }
 
-        .tab-menu a {
-            padding: 10px 15px;
-            text-decoration: none;
-            color: #333;
-            border-bottom: 2px solid transparent;
-        }
+            .order-date {
+                color: #666;
+                font-size: 0.9rem;
+            }
 
-        .tab-menu a.active {
-            color: #007bff;
-            border-color: #007bff;
-        }
+            .order-body {
+                padding: 20px;
+            }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+            .service-info {
+                display: flex;
+                align-items: start;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
 
-        table th,
-        table td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
+            .service-image {
+                width: 80px;
+                height: 80px;
+                border-radius: 10px;
+                object-fit: cover;
+                flex-shrink: 0;
+            }
 
-        table th {
-            background-color: #f8f9fa;
-        }
+            .service-details h5 {
+                margin: 0 0 5px;
+                font-weight: 600;
+                color: #333;
+                font-size: 1.1rem;
+            }
 
-        .badge {
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            color: #fff;
-        }
+            .service-details .provider {
+                color: #666;
+                font-size: 0.9rem;
+                margin-bottom: 5px;
+            }
 
-        .badge.lunas {
-            background-color: #28a745;
-        }
+            .service-details .price {
+                color: #3ab8ff;
+                font-weight: 600;
+                font-size: 1rem;
+            }
 
-        .badge.belum-lunas {
-            background-color: #dc3545;
-        }
+            /* Status Badge */
+            .status-badge {
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
 
-        .badge.progress {
-            background-color: #28a745;
-            color: #ffff;
-        }
-    </style>
-</head>
+            .status-pending {
+                background: #fff3cd;
+                color: #856404;
+                border: 1px solid #ffeaa7;
+            }
 
-<body>
-    <header>
-        <div style="background: #fff; padding: 10px 20px; border-bottom: 1px solid #ddd;">
-            <div
-                style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto;">
-                <!-- Left Section: Logo -->
-                <div>
-                    <a href="#home">
-                        <img src="{{ $assetFunction('pengguna/assets') }}/img/logo/logohandygo.png" alt="Logo"
-                            style="height: 100px;">
-                    </a>
-                </div>
+            .status-diproses {
+                background: #d4edda;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
 
-                <!-- Right Section: Navigation Links, Button, and Profile -->
-                <div style="display: flex; align-items: center;">
-                    <!-- Navigation Links -->
-                    <nav>
-                        <ul style="list-style: none; margin: 0; padding: 0; display: flex;">
-                            <li style="margin-right: 20px;">
-                                <a href="{{ url('penggunaHandyGo') }}"
-                                    style="text-decoration: none; color: #333; font-size: 16px;">Beranda</a>
-                            </li>
+            .status-dikerjakan {
+                background: #cce5ff;
+                color: #004085;
+                border: 1px solid #99d1ff;
+            }
 
-                            <li style="margin-right: 20px;">
-                                <a href="{{ url('penggunaHandyGo/layanan') }}"
-                                    style="text-decoration: none; color: #333; font-size: 16px;">Layanan</a>
-                            </li>
+            .status-selesai {
+                background: #d1ecf1;
+                color: #0c5460;
+                border: 1px solid #bee5eb;
+            }
 
-                            <li style="margin-right: 20px;">
-                                <a href="{{ url('penggunaHandyGo/tentangkami') }}"
-                                    style="text-decoration: none; color: #333; font-size: 16px;">Tentang Kami</a>
-                            </li>
-                        </ul>
-                    </nav>
+            .status-dibatalkan {
+                background: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+            }
 
-                    <!-- Button -->
-                    <a href="./login.html"
-                        style="text-decoration: none; background: #007bff; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 16px; display: inline-flex; align-items: center; margin-left: 20px;">
-                        Daftar Mitra Baru <span style="margin-left: 8px;">→</span>
-                    </a>
+            /* Order Actions */
+            .order-actions {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-top: 15px;
+            }
 
-                    <!-- Profile -->
-                    <div
-                        style="margin-left: 20px; display: flex; align-items: center; border: 1px solid #ddd; padding: 5px 10px; border-radius: 20px;">
-                        <img src="{{ $assetFunction('pengguna/assets') }}img/logo/user.jpg" alt="Profile"
-                            style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
-                        <a href="{{ url('penggunaHandyGo/profile') }}"
-                            style="text-decoration: none; font-size: 16px; color: #333;">Sardor</a>
+            .btn-action {
+                padding: 8px 16px;
+                border-radius: 20px;
+                border: none;
+                font-size: 0.85rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .btn-primary-action {
+                background: #3ab8ff;
+                color: white;
+            }
+
+            .btn-primary-action:hover {
+                background: #0056b3;
+                color: white;
+                transform: translateY(-1px);
+            }
+
+            .btn-secondary-action {
+                background: #6c757d;
+                color: white;
+            }
+
+            .btn-secondary-action:hover {
+                background: #545b62;
+                color: white;
+                transform: translateY(-1px);
+            }
+
+            .btn-success-action {
+                background: #28a745;
+                color: white;
+            }
+
+            .btn-success-action:hover {
+                background: #1e7e34;
+                color: white;
+                transform: translateY(-1px);
+            }
+
+            /* Filter Section */
+            .filter-section {
+                background: white;
+                padding: 25px;
+                border-radius: 15px;
+                margin-bottom: 30px;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .filter-btn {
+                background: #f8f9fa;
+                border: 2px solid transparent;
+                color: #666;
+                padding: 10px 20px;
+                border-radius: 25px;
+                margin: 5px;
+                transition: all 0.3s ease;
+                font-weight: 500;
+                cursor: pointer;
+            }
+
+            .filter-btn:hover,
+            .filter-btn.active {
+                background: #3ab8ff;
+                color: white;
+                border-color: #3ab8ff;
+                transform: translateY(-2px);
+            }
+
+            /* Empty State */
+            .empty-state {
+                text-align: center;
+                padding: 80px 20px;
+                color: #666;
+            }
+
+            .empty-state i {
+                font-size: 4rem;
+                color: #ddd;
+                margin-bottom: 20px;
+            }
+
+            .empty-state h3 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+                color: #333;
+            }
+
+            .empty-state p {
+                margin-bottom: 25px;
+                line-height: 1.6;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 767.98px) {
+                .page-header {
+                    padding: 40px 0;
+                }
+
+                .order-header {
+                    padding: 12px 15px;
+                    flex-direction: column;
+                    align-items: start;
+                }
+
+                .order-body {
+                    padding: 15px;
+                }
+
+                .service-info {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .service-image {
+                    width: 100%;
+                    height: 150px;
+                    align-self: center;
+                }
+
+                .order-actions {
+                    justify-content: center;
+                }
+
+                .filter-section {
+                    padding: 20px 15px;
+                }
+
+                .filter-btn {
+                    display: block;
+                    width: 100%;
+                    margin: 5px 0;
+                    text-align: center;
+                }
+            }
+
+            @media (max-width: 575.98px) {
+                .order-card {
+                    margin: 0 -15px 20px;
+                    border-radius: 0;
+                }
+
+                .filter-section {
+                    margin: 0 -15px 30px;
+                    border-radius: 0;
+                }
+
+                .btn-action {
+                    flex: 1;
+                    justify-content: center;
+                }
+            }
+        </style>
+    @endpush
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container-fluid">
+            <div class="text-center">
+                <h1 class="fw-bold mb-2">Riwayat Pesanan</h1>
+                <p class="mb-0">Lihat semua pesanan yang pernah Anda buat</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container-fluid py-5">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h5 class="mb-3">Filter berdasarkan status:</h5>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterOrders('all', event)">Semua</button>
+                <button class="filter-btn" onclick="filterOrders('menunggu', event)">Menunggu</button>
+                <button class="filter-btn" onclick="filterOrders('diterima', event)">Diterima</button>
+                <button class="filter-btn" onclick="filterOrders('dikerjakan', event)">Dikerjakan</button>
+                <button class="filter-btn" onclick="filterOrders('selesai', event)">Selesai</button>
+                <button class="filter-btn" onclick="filterOrders('dibatalkan', event)">Dibatalkan</button>
+            </div>
+        </div>
+
+        <!-- Orders List -->
+        <div class="orders-container">
+            @forelse($orders as $order)
+                <div class="order-card" data-status="{{ $order->status }}">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-id">Order #{{ $order->id }}</div>
+                            <div class="order-date">{{ $order->created_at->format('d M Y, H:i') }}</div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-{{ strtolower($order->status) }}">
+                                {{ $order->status }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="order-body">
+                        <div class="service-info">
+                            @php
+                                // Array gambar untuk berbagai jenis service
+                                $serviceImages = [
+                                    'Jasa Perbaikan Elektronik' => 'pengguna/assets/img/img_Layanan/Orang_berotot.jpg',
+                                    'Jasa Pemasangan AC' =>
+                                        'pengguna/assets/img/img_Layanan/ART-Info-DampakAngkat-03.jpg',
+                                    'Jasa Pengelolaan Media Sosial' =>
+                                        'pengguna/assets/img/img_Layanan/Screenshot_20240703_100927_Gallery.jpg',
+                                    'Jasa Desain Grafis' =>
+                                        'pengguna/assets/img/img_Layanan/556302340423bd98328b4567.jpeg',
+                                    'Jasa Fotografi' => 'pengguna/assets/img/img_Layanan/Jokowi_mantau.jpg',
+                                    'default' => 'pengguna/assets/img/img_Layanan/HandyFood.jpg',
+                                ];
+                                $serviceName = $order->service->name ?? ($order->service->nama_jasa ?? '');
+                                $image = $serviceImages[$serviceName] ?? $serviceImages['default'];
+                            @endphp
+                            <img src="{{ asset($image) }}" alt="{{ $serviceName ?: 'Service' }}" class="service-image"
+                                onerror="this.src='{{ asset('pengguna/assets/img/img_Layanan/HandyFood.jpg') }}'">
+
+                            <div class="service-details">
+                                <h5>{{ $serviceName ?: 'Layanan Tidak Diketahui' }}</h5>
+                                <div class="provider">
+                                    <i class="fas fa-user me-1"></i>
+                                    {{ $order->provider && $order->provider->user ? $order->provider->user->name : 'Penyedia Tidak Diketahui' }}
+                                </div>
+                                <div class="price">
+                                    <i class="fas fa-money-bill-wave me-1"></i>
+                                    {{ $order->getFormattedFinalPrice() }}
+                                </div>
+                            </div>
+                        </div>
+
+                        @if ($order->catatan)
+                            <div class="order-note mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-sticky-note me-1"></i>
+                                    Catatan: {{ $order->catatan }}
+                                </small>
+                            </div>
+                        @endif
+
+                        <div class="order-actions">
+                            @if ($order->status == 'Pending')
+                                <button class="btn-action btn-secondary-action" onclick="cancelOrder({{ $order->id }})">
+                                    <i class="fas fa-times"></i>
+                                    Batalkan
+                                </button>
+                            @endif
+
+                            @if ($order->status == 'Selesai')
+                                <button class="btn-action btn-success-action" onclick="rateOrder({{ $order->id }})">
+                                    <i class="fas fa-star"></i>
+                                    Beri Rating
+                                </button>
+                                <button class="btn-action btn-primary-action" onclick="reorder({{ $order->id }})">
+                                    <i class="fas fa-redo"></i>
+                                    Pesan Lagi
+                                </button>
+                            @endif
+
+                            <button class="btn-action btn-primary-action" onclick="viewDetails({{ $order->id }})">
+                                <i class="fas fa-eye"></i>
+                                Detail
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @empty
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Belum Ada Riwayat Pesanan</h3>
+                    <p>
+                        Anda belum pernah melakukan pemesanan.
+                        Jelajahi layanan kami dan temukan yang Anda butuhkan!
+                    </p>
+                    <a href="{{ route('customer.layanan') }}" class="btn btn-primary btn-lg rounded-pill">
+                        <i class="fas fa-search me-2"></i>
+                        Jelajahi Layanan
+                    </a>
+                </div>
+            @endforelse
         </div>
-    </header>
 
-    <div class="container">
-        <h1>History</h1>
-        <div class="tab-menu">
-            <a href="{{ url('penggunaHandyGo/profile') }}">Profil</a>
-            <a href="{{ url('penggunaHandyGo/pemesanan') }}">Pemesanan</a>
-            <a href="{{ url('penggunaHandyGo/history') }}" class="active">History</a>
-            <a href="{{ url('penggunaHandyGo') }}">Logout</a>
+        <!-- No Results Message -->
+        <div id="noResults" class="empty-state" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>Tidak Ada Pesanan Ditemukan</h3>
+            <p>Tidak ada pesanan dengan status yang dipilih.</p>
         </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Jasa</th>
-                    <th>Tanggal</th>
-                    <th>Waktu</th>
-                    <th>Pekerja</th>
-                    <th>Alamat</th>
-                    <th>Pembayaran</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Pindahan</td>
-                    <td>04 Okt 2024</td>
-                    <td>13:00</td>
-                    <td>Rudi</td>
-                    <td>Bojong</td>
-                    <td>Berhasil</td>
-                    <td><span class="badge progress">Selesai</span></td>
-                </tr>
-                <tr>
-                    <td>Buang Sampah</td>
-                    <td>Bojong</td>
-                    <td>10 Jan 2024</td>
-                    <td>14:00</td>
-                    <td>Yanto</td>
-                    <td>Refund</td>
-                    <td><span class="badge belum-lunas">Batal</span></td>
-                </tr>
-                <tr>
-                    <td>Angkut Barang</td>
-                    <td>Bojong</td>
-                    <td>25 Feb 2024</td>
-                    <td>15:00</td>
-                    <td>Jordan</td>
-                    <td>Refund</td>
-                    <td><span class="badge belum-lunas">Batal</span></td>
-                </tr>
-                <tr>
-                    <td>Antar / Jemput</td>
-                    <td>Bojong</td>
-                    <td>12 Mar 2024</td>
-                    <td>16:00</td>
-                    <td>Rangga</td>
-                    <td>Berhasil</td>
-                    <td><span class="badge progress">Selesai</span></td>
-                </tr>
-                <tr>
-                    <td>Nemenin Olahraga</td>
-                    <td>Bojong</td>
-                    <td>15 Mei 2024</td>
-                    <td>17:00</td>
-                    <td>Tatang</td>
-                    <td>Berhasil</td>
-                    <td><span class="badge progress">Selesai</span></td>
-                </tr>
-                <tr>
-                    <td>SPY / Mata - Mata</td>
-                    <td>Bojong</td>
-                    <td>09 Des 2024</td>
-                    <td>18:00</td>
-                    <td>Rendi</td>
-                    <td>Berhasil</td>
-                    <td><span class="badge progress">Selesai</span></td>
-                </tr>
-                <tr>
-                    <td>Full Home Cleaning</td>
-                    <td>Bojong</td>
-                    <td>20 Nov 2024</td>
-                    <td>19:00</td>
-                    <td>Stepen</td>
-                    <td>Berhasil</td>
-                    <td><span class="badge progress">Selesai</span></td>
-                </tr>
-                <tr>
-                    <td>Jasa Lainnya</td>
-                    <td>Bojong</td>
-                    <td>19 Apr 2024</td>
-                    <td>20:00</td>
-                    <td>Mawi</td>
-                    <td>Berhasil</td>
-                    <td><span class="badge progress">Selesai</span></td>
-                </tr>
-                <tr>
-                    <td>Basic Daily Cleaning</td>
-                    <td>Bojong</td>
-                    <td>10 Agu 2024</td>
-                    <td>21:00</td>
-                    <td>Robert</td>
-                    <td>Berhasil</td>
-                    <td><span class="badge progress">Selesai</span></td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 
-    <footer style="background-color: #377D98; color: white; padding: 20px 50px; font-family: 'Calibri', sans-serif;">
-        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px;">
-            <!-- Section 1: Support Info -->
-            <div style="flex: 1; min-width: 200px;">
-                <h4 style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: white;">Butuh Bantuan?
-                    Hubungi Tim Support Kami</h4>
-                <p style="margin: 0 0 15px; font-size: 14px; color: white;">Senin - Minggu 06.00 - 22.00 (WIB)</p>
-            </div>
-            <!-- Kontak Kami Button -->
-            <div style="min-width: 150px; text-align: right;">
-                <a href="https://wa.me/6281316814112"
-                    style="background-color: #47A6CE; border: none; padding: 10px 20px; color: white; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block;">
-                    Kontak Kami
-                </a>
-            </div>
-        </div>
+    @push('scripts')
+        <script>
+            // Filter orders by status
+            function filterOrders(status, event = null) {
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                if (event) event.target.classList.add('active');
 
-        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; margin-top: 20px;">
-            <!-- Section 2: Informasi HandyGo -->
-            <div style="flex: 1; min-width: 200px;">
-                <h4 style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: white;">INFORMASI HANDYGO
-                </h4>
-                <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
-                    <li style="font-size: 14px; color: white;">Beranda</li>
-                    <li style="font-size: 14px; color: white;">Layanan</li>
-                    <li style="font-size: 14px; color: white;">Tentang Kami</li>
-                    <li style="font-size: 14px; color: white;">Kontak Kami</li>
-                </ul>
-            </div>
+                const orderCards = document.querySelectorAll('.order-card');
+                let visibleCount = 0;
 
-            <!-- Section 3: Hubungi Kami -->
-            <div style="flex: 1; min-width: 200px;">
-                <h4 style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: white;">HUBUNGI KAMI</h4>
-                <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
-                    <li style="font-size: 14px; color: white;">📞 08131681412</li>
-                    <li style="font-size: 14px; color: white;">📍 STT TERPADU NURUL FIKRI</li>
-                    <li style="font-size: 14px; color: white;">✉️ handygo@gmail.com</li>
-                </ul>
-            </div>
+                orderCards.forEach(card => {
+                    const cardStatus = card.dataset.status;
+                    if (status === 'all' || cardStatus === status) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                        // Animation
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
 
-            <!-- Section 4: Disclaimer -->
-            <div style="flex: 2; min-width: 250px;">
-                <p style="font-size: 14px; line-height: 1.8; margin: 0; color: white;">Handy Go tidak bertanggung jawab
-                    atas transaksi langsung yang dilakukan pelanggan dengan mitra (tidak melalui admin).</p>
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <a href="#" style="font-size: 20px; color: white; text-decoration: none;">🌐</a>
-                    <a href="#" style="font-size: 20px; color: white; text-decoration: none;">📸</a>
-                </div>
-            </div>
-        </div>
+                // Show/hide no results message
+                const noResults = document.getElementById('noResults');
+                const ordersContainer = document.querySelector('.orders-container');
 
-        <!-- Bottom Section -->
-        <div style="text-align: center; margin-top: 20px; font-size: 14px; color: #D1D9E0;">
-            Made With Love By Capybara All Right Reserved
-        </div>
-    </footer>
-</body>
+                if (visibleCount === 0 && orderCards.length > 0) {
+                    noResults.style.display = 'block';
+                    ordersContainer.style.display = 'none';
+                } else {
+                    noResults.style.display = 'none';
+                    ordersContainer.style.display = 'block';
+                }
+            }
 
-</html>
+            // Cancel order
+            function cancelOrder(orderId) {
+                if (confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')) {
+                    // Here you would make an AJAX call to cancel the order
+                    alert('Fitur pembatalan pesanan akan segera tersedia.');
+                    // Example:
+                    // fetch('/api/orders/' + orderId + '/cancel', { method: 'POST' })
+                    //     .then(response => response.json())
+                    //     .then(data => {
+                    //         if (data.success) {
+                    //             location.reload();
+                    //         }
+                    //     });
+                }
+            }
+
+            // Rate order
+            function rateOrder(orderId) {
+                alert('Fitur rating akan segera tersedia. Terima kasih atas kepercayaan Anda!');
+                // Here you would open a rating modal or redirect to rating page
+            }
+
+            // Reorder
+            function reorder(orderId) {
+                if (confirm('Apakah Anda ingin memesan layanan yang sama lagi?')) {
+                    alert('Fitur pemesanan ulang akan segera tersedia.');
+                    // Here you would handle reordering logic
+                }
+            }
+
+            // View order details
+            function viewDetails(orderId) {
+                alert('Detail pesanan #' + orderId + '\n\nFitur detail pesanan akan segera tersedia.');
+                // Here you would redirect to order details page or open modal
+            }
+
+            // Initial animation
+            document.addEventListener('DOMContentLoaded', function() {
+                const orderCards = document.querySelectorAll('.order-card');
+                orderCards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            });
+
+            // Add smooth scrolling when filter changes
+            function smoothScrollToTop() {
+                window.scrollTo({
+                    top: document.querySelector('.filter-section').offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Add smooth scroll to filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setTimeout(smoothScrollToTop, 300);
+                });
+            });
+        </script>
+    @endpush
+@endsection
