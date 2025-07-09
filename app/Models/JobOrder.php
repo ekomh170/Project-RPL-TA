@@ -4,52 +4,106 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class JobOrder extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        'pembayaran',
+        'order_code',
         'user_id',
-        'penyedia_jasa_id',
-        // 'service_id', // Field ini tidak ada di tabel database
-        'waktu_kerja',
-        'nama_jasa',
-        'harga_penawaran',
-        'tanggal_pelaksanaan',
-        'gender',
-        'deskripsi',
-        'informasi_pembayaran',
-        'nomor_telepon', // Field yang ada di database tapi tidak di fillable
-        'bukti', // Field yang ada di database tapi tidak di fillable
-        'status', // Field yang ada di database tapi tidak di fillable
+        'service_id',
+        'provider_id',
+        'description',
+        'address',
+        'customer_phone',
+        'status',
+        'base_price',
+        'final_price',
+        'admin_fee',
+        'scheduled_at',
+        'started_at',
+        'completed_at',
+        'rating',
+        'review',
     ];
 
     /**
-     * Casts untuk type casting kolom database.
+     * The attributes that should be cast.
+     *
+     * @var array
      */
     protected $casts = [
-        'tanggal_pelaksanaan' => 'date',
-        'harga_penawaran' => 'decimal:2',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'base_price' => 'decimal:2',
+        'final_price' => 'decimal:2',
+        'admin_fee' => 'decimal:2',
+        'scheduled_at' => 'datetime',
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
+        'rating' => 'integer',
     ];
 
     /**
-     * Relasi dengan model PenyediaJasa.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * Boot method untuk generate order code
      */
-    public function penyediajasa()
+    protected static function boot()
     {
-        return $this->belongsTo(PenyediaJasa::class, 'penyedia_jasa_id');
+        parent::boot();
+
+        static::creating(function ($jobOrder) {
+            if (empty($jobOrder->order_code)) {
+                $jobOrder->order_code = $jobOrder->generateOrderCode();
+            }
+        });
     }
 
     /**
-     * Relasi dengan model User (customer).
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * Generate unique order code
+     */
+    private function generateOrderCode(): string
+    {
+        $date = now()->format('Ymd');
+        $lastOrder = static::whereDate('created_at', today())
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $sequence = $lastOrder ? intval(substr($lastOrder->order_code, -4)) + 1 : 1;
+
+        return 'JO-' . $date . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Scope untuk filter berdasarkan status
+     */
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    /**
+     * Scope untuk filter berdasarkan user
+     */
+    public function scopeForUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    /**
+     * Scope untuk filter berdasarkan provider
+     */
+    public function scopeForProvider($query, $providerId)
+    {
+        return $query->where('provider_id', $providerId);
+    }
+
+    /**
+     * Relasi: Job order belongs to user (customer)
      */
     public function user()
     {
@@ -57,24 +111,171 @@ class JobOrder extends Model
     }
 
     /**
-     * Relasi dengan model Service.
-     * Catatan: Field service_id tidak ada di database, relasi melalui nama_jasa
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|null
+     * Relasi: Job order belongs to service
      */
     public function service()
     {
-        // Karena service_id tidak ada di database, kita cari berdasarkan nama_jasa
-        return $this->belongsTo(Service::class, 'service_id')->withDefault();
+        return $this->belongsTo(Service::class);
     }
 
     /**
-     * Relasi dengan model Transaction.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Relasi: Job order belongs to provider (penyedia jasa)
+     */
+    public function provider()
+    {
+        return $this->belongsTo(PenyediaJasa::class, 'provider_id');
+    }
+
+    /**
+     * Relasi: Job order memiliki banyak transactions
      */
     public function transactions()
     {
-        return $this->hasMany(Transaction::class, 'job_order_id');
+        return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * Helper method: Cek apakah order pending
+     */
+    public function isPending(): bool
+    {
+        return $this->status === 'menunggu';
+    }
+
+    /**
+     * Helper method: Cek apakah order completed
+     */
+    public function isCompleted(): bool
+    {
+        return $this->status === 'selesai';
+    }
+
+    /**
+     * Helper method: Cek apakah order dalam progress
+     */
+    public function isInProgress(): bool
+    {
+        return $this->status === 'dikerjakan';
+    }
+
+    /**
+     * Helper method: Get status label
+     */
+    public function getStatusLabel(): string
+    {
+        $statuses = [
+            'menunggu' => 'Menunggu Provider',
+            'diterima' => 'Diterima',
+            'dikerjakan' => 'Sedang Dikerjakan',
+            'selesai' => 'Selesai',
+            'dibatalkan' => 'Dibatalkan',
+        ];
+
+        return $statuses[$this->status] ?? ucfirst($this->status);
+    }
+
+    /**
+     * Helper method: Get status badge class
+     */
+    public function getStatusBadgeClass(): string
+    {
+        $classes = [
+            'menunggu' => 'bg-warning',
+            'diterima' => 'bg-info',
+            'dikerjakan' => 'bg-primary',
+            'selesai' => 'bg-success',
+            'dibatalkan' => 'bg-danger',
+        ];
+
+        return $classes[$this->status] ?? 'bg-secondary';
+    }
+
+    /**
+     * Helper method: Get formatted final price
+     */
+    public function getFormattedFinalPrice(): string
+    {
+        return 'Rp ' . number_format($this->final_price, 0, ',', '.');
+    }
+
+    /**
+     * Helper method: Get total amount (final_price + admin_fee)
+     */
+    public function getTotalAmount(): float
+    {
+        return $this->final_price + $this->admin_fee;
+    }
+
+    /**
+     * Helper method: Get formatted total amount
+     */
+    public function getFormattedTotalAmount(): string
+    {
+        return 'Rp ' . number_format($this->getTotalAmount(), 0, ',', '.');
+    }
+
+    /**
+     * Helper method: Cek apakah bisa dibatalkan
+     */
+    public function canBeCancelled(): bool
+    {
+        return in_array($this->status, ['menunggu', 'diterima']);
+    }
+
+    /**
+     * Helper method: Cek apakah bisa dimulai
+     */
+    public function canBeStarted(): bool
+    {
+        return $this->status === 'diterima';
+    }
+
+    /**
+     * Helper method: Cek apakah bisa diselesaikan
+     */
+    public function canBeCompleted(): bool
+    {
+        return $this->status === 'dikerjakan';
+    }
+
+    /**
+     * Helper method: Get star rating HTML
+     */
+    public function getStarRating(): string
+    {
+        if (!$this->rating) {
+            return 'Belum dinilai';
+        }
+
+        $stars = '';
+        for ($i = 1; $i <= 5; $i++) {
+            if ($i <= $this->rating) {
+                $stars .= '★';
+            } else {
+                $stars .= '☆';
+            }
+        }
+
+        return $stars;
+    }
+
+    /**
+     * Helper method: Get duration in human readable format
+     */
+    public function getDurationText(): string
+    {
+        if (!$this->started_at || !$this->completed_at) {
+            return '-';
+        }
+
+        $duration = $this->completed_at->diffInMinutes($this->started_at);
+
+        if ($duration < 60) {
+            return $duration . ' menit';
+        } else {
+            $hours = floor($duration / 60);
+            $minutes = $duration % 60;
+            return $hours . ' jam ' . ($minutes > 0 ? $minutes . ' menit' : '');
+        }
     }
 }
