@@ -89,19 +89,19 @@
                             </div>
 
                             <!-- Progress steps -->
-                            <div class="progress-step {{ $order->status == 'Pending' ? 'active' : ($order->status == 'Diproses' || $order->status == 'Dikerjakan' || $order->status == 'Selesai' ? 'completed' : '') }}"
+                            <div class="progress-step {{ $order->status == 'menunggu' ? 'active' : ($order->status == 'diterima' || $order->status == 'dikerjakan' || $order->status == 'selesai' ? 'completed' : '') }}"
                                 data-step="1">
                                 1
                             </div>
-                            <div class="progress-step {{ $order->status == 'Diproses' ? 'active' : ($order->status == 'Dikerjakan' || $order->status == 'Selesai' ? 'completed' : '') }}"
+                            <div class="progress-step {{ $order->status == 'diterima' ? 'active' : ($order->status == 'dikerjakan' || $order->status == 'selesai' ? 'completed' : '') }}"
                                 data-step="2">
                                 2
                             </div>
-                            <div class="progress-step {{ $order->status == 'Dikerjakan' ? 'active' : ($order->status == 'Selesai' ? 'completed' : '') }}"
+                            <div class="progress-step {{ $order->status == 'dikerjakan' ? 'active' : ($order->status == 'selesai' ? 'completed' : '') }}"
                                 data-step="3">
                                 3
                             </div>
-                            <div class="progress-step {{ $order->status == 'Selesai' ? 'completed' : '' }}"
+                            <div class="progress-step {{ $order->status == 'selesai' ? 'completed' : '' }}"
                                 data-step="4">
                                 4
                             </div>
