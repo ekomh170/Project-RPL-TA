@@ -22,14 +22,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
+            'phone' => 'required|string|max:20|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'required|string',
+            'role' => 'required|in:pengguna,penyedia_jasa',
+            'status' => 'sometimes|in:pending,aktif,nonaktif',
+            'address' => 'nullable|string',
         ]);
 
         $validated['password'] = bcrypt($validated['password']);
+
+        // Set default status if not provided
+        if (!isset($validated['status'])) {
+            $validated['status'] = 'pending';
+        }
 
         User::create($validated);
 
