@@ -10,6 +10,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,37 +30,85 @@ Route::get('/dashboard/penyediajasa/detail/{penyediajasa}', [PenyediaJasaControl
 
 // Route Halaman Utama
 Route::get('/', function () {
-    return view('pengguna.index');
+    $data = [
+        'title' => 'HandyGo - Solusi Jasa Harian Terpercaya',
+        'description' => 'Platform jasa harian terpercaya untuk berbagai kebutuhan Anda',
+        'services' => \App\Models\Service::all(),
+        'services_count' => \App\Models\Service::count(),
+        'active_providers' => \App\Models\User::where('role', 'penyedia_jasa')->count(),
+        'users' => \App\Models\User::all()
+    ];
+    return view('pengguna.index', $data);
 })->name('pengguna');
-// Route Halaman Utama
 
-// Route Pengguna
+// Route Customer - Login
+Route::get('/customer/login', [PenggunaController::class, 'showLoginForm'])->name('customer.login');
+Route::post('/customer/login', [PenggunaController::class, 'login'])->name('customer.login.post');
+
+// Route Customer - Protected Pages (dengan middleware auth)
+Route::middleware(['auth'])->prefix('customer')->name('customer.')->group(function () {
+    Route::get('/', [PenggunaController::class, 'index'])->name('index');
+    Route::get('/layanan', [PenggunaController::class, 'layanan'])->name('layanan');
+    Route::get('/tentangkami', [PenggunaController::class, 'tentangkami'])->name('tentangkami');
+    Route::get('/history', [PenggunaController::class, 'history'])->name('history');
+    Route::get('/pemesanan', [PenggunaController::class, 'pemesanan'])->name('pemesanan');
+    Route::post('/orders', [PenggunaController::class, 'storeOrder'])->name('orders.store');
+    Route::patch('/orders/{id}/progress', [PenggunaController::class, 'updateOrderProgress'])->name('orders.progress');
+    Route::delete('/orders/{id}/cancel', [PenggunaController::class, 'cancelOrder'])->name('orders.cancel');
+    Route::get('/orders/{id}/detail', [PenggunaController::class, 'orderDetail'])->name('orders.detail');
+    Route::get('/payment', [PenggunaController::class, 'payment'])->name('payment');
+    Route::post('/payment', [PenggunaController::class, 'storePayment'])->name('payment.store');
+    Route::get('/profile', [PenggunaController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [PenggunaController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/logout', [PenggunaController::class, 'logout'])->name('logout');
+});
+
+// Route Pengguna - Public Pages (untuk non-authenticated users)
 Route::get('/penggunaHandyGo', function () {
-    return view('pengguna.index');
+    $data = [
+        'title' => 'HandyGo - Solusi Jasa Harian Terpercaya',
+        'services' => \App\Models\Service::all(),
+        'services_count' => \App\Models\Service::count(),
+        'active_providers' => \App\Models\User::where('role', 'penyedia_jasa')->count()
+    ];
+    return view('pengguna.index', $data);
 });
 
 Route::get('/penggunaHandyGo/tentangkami', function () {
-    return view('pengguna.tentangkami');
-});
-
-Route::get('/penggunaHandyGo/profile', function () {
-    return view('pengguna.profile');
+    return view('pengguna.tentangkami', ['title' => 'Tentang Kami - HandyGo']);
 });
 
 Route::get('/penggunaHandyGo/layanan', function () {
-    return view('pengguna.layanan');
-});
+    $data = [
+        'title' => 'Layanan - HandyGo',
+        'services' => \App\Models\Service::all()
+    ];
+    return view('pengguna.layanan', $data);
+})->name('public.layanan');
 
 Route::get('/penggunaHandyGo/payment', function () {
-    return view('pengguna.payment');
-});
+    $data = [
+        'title' => 'Payment - HandyGo',
+        'services' => \App\Models\Service::all()
+    ];
+    return view('pengguna.payment', $data);
+})->name('public.payment');
 
 Route::get('/penggunaHandyGo/pemesanan', function () {
-    return view('pengguna.pemesanan');
-});
+    $data = [
+        'title' => 'Pemesanan - HandyGo',
+        'active_orders' => collect(), // Empty collection for non-authenticated users
+        'services' => \App\Models\Service::all()
+    ];
+    return view('pengguna.pemesanan', $data);
+})->name('public.pemesanan');
 
 Route::get('/penggunaHandyGo/history', function () {
-    return view('pengguna.history');
+    $data = [
+        'title' => 'History - HandyGo',
+        'orders' => collect() // Empty collection for non-authenticated users
+    ];
+    return view('pengguna.history', $data);
 });
 // Route Pengguna
 
@@ -105,9 +154,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-
-
 
 // Include File Auth
 require __DIR__ . '/auth.php';
