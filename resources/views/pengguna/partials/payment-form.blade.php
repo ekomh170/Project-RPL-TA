@@ -17,18 +17,41 @@
                                 <h4 class="section-title">
                                     <i class="fas fa-concierge-bell"></i>
                                     Pilih Layanan
+                                    <button type="button" id="refreshServices"
+                                        class="btn btn-sm btn-outline-info ms-auto">
+                                        <i class="fas fa-sync-alt"></i> Segarkan Status
+                                    </button>
                                 </h4>
 
                                 <div class="service-grid">
-                                    @forelse($services->take(6) as $index => $service)
-                                        <div class="service-option" onclick="selectService({{ $index }})">
+                                    @forelse($services as $index => $service)
+                                        @php
+                                            $isOrdered = in_array($service->id, $orderedServiceIds ?? []);
+                                            $isDisabled = $isOrdered ? 'disabled' : '';
+                                            $serviceClass = $isOrdered ? 'service-option disabled' : 'service-option';
+                                            // Make first available service selected by default
+                                            $isChecked = !$isOrdered && !isset($defaultChecked) ? 'checked' : '';
+                                            if (!$isOrdered && !isset($defaultChecked)) {
+                                                $defaultChecked = true;
+                                            }
+                                        @endphp
+                                        <div class="{{ $serviceClass }}" data-service-index="{{ $index }}"
+                                            data-service-id="{{ $service->id }}">
                                             <input type="radio" name="service_id" value="{{ $service->id }}"
-                                                id="service_{{ $index }}" {{ $index == 0 ? 'checked' : '' }}>
+                                                id="service_{{ $index }}" {{ $isChecked }}
+                                                {{ $isDisabled }}>
                                             <div class="service-info">
                                                 <h5>{{ $service->name }}</h5>
                                                 <div class="service-category">{{ $service->category }}</div>
                                                 <div class="service-price">Rp.
                                                     {{ number_format($service->price, 0, ',', '.') }}</div>
+                                                @if ($isOrdered)
+                                                    <div class="service-ordered-badge">Sudah dipesan</div>
+                                                @endif
+                                                <div class="has-providers-indicator"
+                                                    style="display:none; background: #28a745; color: white; padding: 2px 5px; border-radius: 3px; font-size: 10px; margin-top: 5px;">
+                                                    <i class="fas fa-user-check"></i> Penyedia tersedia
+                                                </div>
                                             </div>
                                         </div>
                                     @empty
@@ -36,6 +59,103 @@
                                             <p class="text-muted">Tidak ada layanan tersedia saat ini.</p>
                                         </div>
                                     @endforelse
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    @if ($services->count() > 6)
+                                        <button type="button" id="loadMoreServices"
+                                            class="btn btn-outline-primary me-2">
+                                            <i class="fas fa-plus-circle me-2"></i>Lihat Semua Layanan
+                                            ({{ $services->count() }})
+                                        </button>
+                                    @endif
+
+                                    <button type="button" id="findServicesWithProviders"
+                                        class="btn btn-outline-success">
+                                        <i class="fas fa-search me-2"></i>Temukan Layanan Dengan Penyedia
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Alert when all services are ordered -->
+                            @if (count($services) > 0 && count($orderedServiceIds) >= count($services))
+                                <div class="alert alert-warning mt-3">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <strong>Perhatian!</strong> Anda telah memesan semua layanan yang tersedia.
+                                    Silakan cek halaman <a href="{{ route('customer.pemesanan') }}"
+                                        class="alert-link">Pemesanan</a>
+                                    untuk melihat status pesanan Anda.
+                                </div>
+                            @endif
+
+                            <!-- Validation errors -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger mt-3">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Terjadi kesalahan!</strong> Harap periksa semua input dan coba lagi.
+                                    <ul class="mt-2">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <!-- Provider Selection -->
+                            <div class="form-section" id="providerSelectionSection">
+                                <h4 class="section-title">
+                                    <i class="fas fa-user-tie"></i>
+                                    Pilih Penyedia Jasa
+                                </h4>
+                                <div class="alert alert-info mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Pilih penyedia jasa yang akan melakukan layanan Anda.
+                                    Penyedia jasa akan menyesuaikan dengan layanan yang Anda pilih.
+                                </div>
+
+                                <!-- Debug section removed -->
+
+                                <div class="provider-selection">
+                                    <div class="form-group d-flex gap-2">
+                                        <select name="provider_id" id="provider_id" class="form-control" required>
+                                            <option value="">-- Pilih Penyedia Jasa --</option>
+                                            <!-- Provider options will be loaded via JavaScript -->
+                                        </select>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            id="refreshProviders" title="Muat ulang daftar penyedia jasa">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+
+                                    <div id="providerWarning" class="alert alert-warning mt-2" style="display: none;">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        <strong>Perhatian!</strong> Tidak ada penyedia jasa tersedia untuk layanan ini
+                                        saat ini.
+                                        Silakan pilih layanan lain atau coba lagi nanti.
+                                    </div>
+                                    <div id="providerDetails" class="mt-3 d-none">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="provider-icon">
+                                                        <i class="fas fa-user-circle fa-3x"></i>
+                                                    </div>
+                                                    <div class="provider-info ms-3">
+                                                        <h5 id="selectedProviderName">Nama Provider</h5>
+                                                        <div class="provider-rating">
+                                                            <span id="selectedProviderRating">0</span>/5
+                                                            <i class="fas fa-star text-warning"></i>
+                                                            (<span id="selectedProviderReviews">0</span> ulasan)
+                                                        </div>
+                                                        <div class="provider-experience"
+                                                            id="selectedProviderExperience">
+                                                            Pengalaman: -
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

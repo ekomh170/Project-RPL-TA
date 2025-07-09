@@ -51,6 +51,54 @@
             opacity: 0.9;
         }
 
+        /* Provider Selection Styles */
+        .provider-selection {
+            margin-bottom: 20px;
+        }
+
+        .provider-selection select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .provider-selection select:focus {
+            border-color: #3ab8ff;
+            box-shadow: 0 0 0 3px rgba(58, 184, 255, 0.2);
+            outline: none;
+        }
+
+        .provider-icon {
+            color: #3ab8ff;
+            background-color: #f0f9ff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .provider-info h5 {
+            margin: 0 0 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .provider-rating {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .provider-experience {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
         .payment-body {
             padding: 40px;
         }
@@ -61,9 +109,15 @@
 
         .service-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 20px;
+            max-height: 600px;
+            /* Batasi tinggi maksimal */
+            overflow-y: auto;
+            /* Tambahkan scrollbar jika terlalu banyak item */
+            padding-right: 5px;
+            /* Ruang untuk scrollbar */
         }
 
         .service-option {
@@ -85,6 +139,35 @@
         .service-option.selected {
             border-color: #3ab8ff;
             background: #f0f9ff;
+        }
+
+        /* Styling for services that have already been ordered */
+        .service-option.disabled {
+            border-color: #ddd;
+            background: #f5f5f5;
+            opacity: 0.8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .service-option.disabled:hover {
+            border-color: #ddd;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .service-ordered-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 20px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         .service-option input[type="radio"] {
@@ -124,6 +207,20 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        /* Styling untuk tombol refresh */
+        #refreshServices {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-left: auto;
+            transition: all 0.3s ease;
+        }
+
+        #refreshServices:hover {
+            background-color: #17a2b8;
+            color: white;
         }
 
         .form-group {
