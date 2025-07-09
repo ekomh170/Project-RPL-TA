@@ -34,9 +34,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('penyediajasa');
         }
         if ($user->role === 'pengguna') {
-            return redirect()->route('pengguna');
+            return redirect('/customer');
         }
-        
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

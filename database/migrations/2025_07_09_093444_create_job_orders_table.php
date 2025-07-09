@@ -25,12 +25,12 @@ return new class extends Migration
             $table->text('address');
             $table->string('customer_phone', 20);
 
-            // Status dan workflow
+            // Status and workflow (serves as progress indicator)
             $table->enum('status', [
-                'menunggu',     // Menunggu provider
-                'diterima',     // Provider terima
-                'dikerjakan',   // Sedang dikerjakan
-                'selesai',      // Selesai
+                'menunggu',     // Menunggu provider (step 1)
+                'diterima',     // Provider terima (step 2)
+                'dikerjakan',   // Sedang dikerjakan (step 3)
+                'selesai',      // Selesai (step 4)
                 'dibatalkan'    // Dibatalkan
             ])->default('menunggu');
 

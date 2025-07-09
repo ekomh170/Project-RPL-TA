@@ -292,4 +292,48 @@ class JobOrder extends Model
             return $hours . ' jam ' . ($minutes > 0 ? $minutes . ' menit' : '');
         }
     }
+
+    /**
+     * Update progress and status job order
+     */
+    public function updateProgress(string $status)
+    {
+        // Validasi status agar sesuai dengan enum yang tersedia
+        $validStatuses = ['menunggu', 'diterima', 'dikerjakan', 'selesai', 'dibatalkan'];
+
+        if (!in_array($status, $validStatuses)) {
+            throw new \InvalidArgumentException("Status '{$status}' tidak valid. Status harus salah satu dari: " . implode(', ', $validStatuses));
+        }
+
+        // Update status
+        $this->update([
+            'status' => $status
+        ]);
+
+        // Update timestamp berdasarkan status
+        if ($status === 'dikerjakan' && !$this->started_at) {
+            $this->update(['started_at' => now()]);
+        } elseif ($status === 'selesai' && !$this->completed_at) {
+            $this->update(['completed_at' => now()]);
+
+            // Update transaction status to 'lunas' when order is completed
+            Transaction::where('job_order_id', $this->id)
+                ->where('status', 'menunggu')
+                ->update([
+                    'status' => 'lunas',
+                    'paid_at' => now(),
+                    'payment_details' => json_encode(['completed_at' => now()->toDateTimeString()])
+                ]);
+        } elseif ($status === 'dibatalkan') {
+            // Update transaction status to 'gagal' when order is cancelled
+            Transaction::where('job_order_id', $this->id)
+                ->where('status', 'menunggu')
+                ->update([
+                    'status' => 'gagal',
+                    'payment_details' => json_encode(['cancelled_at' => now()->toDateTimeString()])
+                ]);
+        }
+
+        return $this;
+    }
 }

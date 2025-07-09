@@ -57,7 +57,9 @@ Route::middleware(['auth'])->prefix('customer')->name('customer.')->group(functi
     Route::delete('/orders/{id}/cancel', [PenggunaController::class, 'cancelOrder'])->name('orders.cancel');
     Route::get('/orders/{id}/detail', [PenggunaController::class, 'orderDetail'])->name('orders.detail');
     Route::get('/payment', [PenggunaController::class, 'payment'])->name('payment');
-    Route::post('/payment', [PenggunaController::class, 'storePayment'])->name('payment.store');
+    Route::post('/payment', [PenggunaController::class, 'storePayment'])->name('payment.store'); // Original route
+    // Adding additional matching route for the form
+    Route::post('/payment-store', [PenggunaController::class, 'storePayment'])->name('customer.payment.store');
     Route::get('/profile', [PenggunaController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [PenggunaController::class, 'updateProfile'])->name('profile.update');
     Route::post('/logout', [PenggunaController::class, 'logout'])->name('logout');
@@ -154,6 +156,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Temporary route to debug all routes
+Route::get('/dump-routes', [App\Http\Controllers\DumpRoutesController::class, 'index']);
 
 // Include File Auth
 require __DIR__ . '/auth.php';

@@ -15,6 +15,23 @@ use Illuminate\Validation\ValidationException;
 class PenggunaController extends Controller
 {
     /**
+     * Map payment method dari form ke enum di database
+     */
+    private function mapPaymentMethod($method)
+    {
+        $map = [
+            'Cash' => 'tunai',
+            'Transfer Bank' => 'transfer_bank',
+            'E-Wallet' => 'dompet_digital',
+            'cash' => 'tunai',
+            'transfer' => 'transfer_bank',
+            'ewallet' => 'dompet_digital',
+        ];
+
+        return $map[$method] ?? 'tunai';
+    }
+
+    /**
      * Tampilkan form login untuk customer/pengguna
      */
     public function showLoginForm()
@@ -139,7 +156,7 @@ class PenggunaController extends Controller
         $user = Auth::user();
         $data = [
             'title' => 'History - HandyGo',
-            'orders' => JobOrder::with(['service', 'penyediaJasa.user'])
+            'orders' => JobOrder::with(['service', 'provider.user'])
                 ->where('user_id', $user->id)
                 ->orderBy('created_at', 'desc')
                 ->get()
@@ -154,14 +171,43 @@ class PenggunaController extends Controller
     public function pemesanan()
     {
         $user = Auth::user();
+
+        // Get all services
+        $services = Service::all();
+
+        // Get providers for each service
+        $serviceProviders = [];
+        foreach ($services as $service) {
+            // Get providers who offer this service and are verified
+            $providers = $service->penyediaJasa()
+                ->with('user') // Memuat relasi user
+                ->where('verification_status', 'verified')
+                ->where('penyedia_service.is_available', true)
+                ->get();
+
+            $serviceProviders[$service->id] = $providers;
+        }
+
+        // Convert serviceProviders to array keyed by service ID for better JSON serialization
+        $formattedProviders = [];
+        foreach ($serviceProviders as $serviceId => $providers) {
+            // Make sure each provider is properly formatted with user data
+            $formattedProviders[$serviceId] = $providers->map(function ($provider) {
+                // Ensure user data is properly included
+                $providerData = $provider->toArray();
+                return $providerData;
+            })->toArray();
+        }
+
         $data = [
             'title' => 'Pemesanan - HandyGo',
-            'active_orders' => JobOrder::with(['service', 'penyediaJasa.user'])
+            'active_orders' => JobOrder::with(['service', 'provider.user'])
                 ->where('user_id', $user->id)
-                ->whereIn('status', ['Pending', 'Diproses', 'Dikerjakan'])
+                ->whereIn('status', ['menunggu', 'diterima', 'dikerjakan'])
                 ->orderBy('created_at', 'desc')
                 ->get(),
-            'services' => Service::all() // Tambahkan data services untuk form
+            'services' => $services,
+            'serviceProviders' => $formattedProviders
         ];
 
         return view('pengguna.pemesanan', $data);
@@ -177,6 +223,7 @@ class PenggunaController extends Controller
         // Validasi input sesuai dengan modal yang sudah diperbarui
         $request->validate([
             'service_id' => 'required|exists:services,id',
+            'provider_id' => 'required|exists:penyedia_jasa,id',
             'nama_pelanggan' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|regex:/^08[0-9]{8,11}$/|max:15',
             'email' => 'required|email|max:255',
@@ -188,6 +235,8 @@ class PenggunaController extends Controller
         ], [
             'service_id.required' => 'Pilih layanan terlebih dahulu',
             'service_id.exists' => 'Layanan yang dipilih tidak valid',
+            'provider_id.required' => 'Pilih penyedia jasa terlebih dahulu',
+            'provider_id.exists' => 'Penyedia jasa yang dipilih tidak valid',
             'nama_pelanggan.required' => 'Nama pelanggan wajib diisi',
             'nomor_telepon.required' => 'Nomor telepon wajib diisi',
             'nomor_telepon.regex' => 'Format nomor telepon tidak valid (gunakan 08xxxxxxxxxx)',
@@ -210,27 +259,35 @@ class PenggunaController extends Controller
 
             // Hitung total harga (harga service + biaya admin)
             $adminFee = 5000;
-            $totalPrice = $service->harga + $adminFee;
+            $totalPrice = $service->price + $adminFee;
 
-            // Buat job order baru dengan field yang sesuai modal
+            // Buat job order baru dengan field yang sesuai migration dan model
             $jobOrder = JobOrder::create([
+                'order_code' => 'JO-' . date('Ymd') . '-' . rand(1000, 9999), // Generate kode pesanan
                 'user_id' => $user->id,
-                'service_id' => $service->id,  // Use service_id instead of nama_jasa
-                'harga_penawaran' => $service->harga,
-                'total_harga' => $totalPrice,
-                'biaya_admin' => $adminFee,
-                'nama_pelanggan' => $request->nama_pelanggan,
-                'nomor_telepon' => $request->nomor_telepon,
-                'email_pelanggan' => $request->email,
-                'alamat_pelanggan' => $request->alamat,
-                'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
-                'waktu_kerja' => $request->waktu_kerja,
-                'deskripsi' => $request->deskripsi ?: 'Tidak ada catatan khusus',
-                'metode_pembayaran' => $request->pembayaran,
-                'pembayaran' => $request->pembayaran, // Untuk backward compatibility
-                'status' => 'Pending',
-                'informasi_pembayaran' => 'Menunggu konfirmasi penyedia jasa',
-                'progress_step' => 1 // Untuk progress tracking
+                'service_id' => $service->id,
+                'provider_id' => $request->provider_id, // Tambahkan provider_id
+                'description' => $request->deskripsi ?: 'Tidak ada catatan khusus',
+                'address' => $request->alamat,
+                'customer_phone' => $request->nomor_telepon,
+                'status' => 'menunggu',
+                'base_price' => $service->price,
+                'final_price' => $totalPrice,
+                'admin_fee' => $adminFee,
+                'scheduled_at' => $request->tanggal_pelaksanaan . ' ' . $request->waktu_kerja
+            ]);
+
+            // Buat transaksi untuk pesanan
+            \App\Models\Transaction::create([
+                'transaction_code' => 'TRX-' . date('Ymd') . '-' . rand(1000, 9999),
+                'job_order_id' => $jobOrder->id,
+                'user_id' => $user->id,
+                'amount' => $service->price,
+                'admin_fee' => $adminFee,
+                'total_amount' => $totalPrice,
+                'payment_method' => $this->mapPaymentMethod($request->pembayaran),
+                'status' => 'menunggu',
+                'expired_at' => now()->addDays(1),
             ]);
 
             // Buat notifikasi untuk user
@@ -246,7 +303,7 @@ class PenggunaController extends Controller
             Log::info('New order created', [
                 'user_id' => $user->id,
                 'order_id' => $jobOrder->id,
-                'service' => $service->nama_jasa,
+                'service' => $service->name,
                 'total_price' => $totalPrice,
                 'payment_method' => $request->pembayaran
             ]);
@@ -272,10 +329,49 @@ class PenggunaController extends Controller
     public function payment()
     {
         $user = Auth::user();
+
+        // Get all services
+        $services = Service::all();
+
+        // Get services that have been ordered by the current user
+        $orderedServiceIds = [];
+        if ($user) {
+            $orderedServiceIds = JobOrder::where('user_id', $user->id)
+                ->whereIn('status', ['menunggu', 'diterima', 'dikerjakan'])
+                ->pluck('service_id')
+                ->toArray();
+        }
+
+        // Get providers for each service
+        $serviceProviders = [];
+        foreach ($services as $service) {
+            // Get providers who offer this service and are verified
+            $providers = $service->penyediaJasa()
+                ->with('user') // Memuat relasi user
+                ->where('verification_status', 'verified')
+                ->where('penyedia_service.is_available', true)
+                ->get();
+
+            $serviceProviders[$service->id] = $providers;
+        }
+
+        // Convert serviceProviders to array keyed by service ID for better JSON serialization
+        $formattedProviders = [];
+        foreach ($serviceProviders as $serviceId => $providers) {
+            // Make sure each provider is properly formatted with user data
+            $formattedProviders[$serviceId] = $providers->map(function ($provider) {
+                // Ensure user data is properly included
+                $providerData = $provider->toArray();
+                return $providerData;
+            })->toArray();
+        }
+
         $data = [
             'title' => 'Payment - HandyGo',
-            'services' => Service::all(),
-            'user_address' => $user ? $user->address : ''
+            'services' => $services,
+            'orderedServiceIds' => $orderedServiceIds,
+            'user_address' => $user ? $user->address : '',
+            'serviceProviders' => $formattedProviders
         ];
 
         return view('pengguna.payment', $data);
@@ -289,6 +385,7 @@ class PenggunaController extends Controller
         $user = Auth::user();
         $request->validate([
             'service_id' => 'required|exists:services,id',
+            'provider_id' => 'required|exists:penyedia_jasa,id',
             'customer_name' => 'required|string|max:255',
             'customer_phone' => 'required|string|max:15',
             'customer_email' => 'required|email|max:255',
@@ -303,15 +400,31 @@ class PenggunaController extends Controller
         $finalPrice = $service->price + $adminFee;
 
         $order = JobOrder::create([
+            'order_code' => 'JO-' . date('Ymd') . '-' . rand(1000, 9999), // Generate kode pesanan
             'user_id' => $user->id,
             'service_id' => $service->id,
-            'description' => $request->special_notes,
+            'provider_id' => $request->provider_id, // Simpan provider_id yang dipilih
+            'description' => $request->special_notes ?? null,
             'address' => $request->customer_address,
             'customer_phone' => $request->customer_phone,
-            'status' => 'Pending',
+            'status' => 'menunggu',
             'base_price' => $service->price,
             'final_price' => $finalPrice,
-            'scheduled_at' => $request->service_date . ' ' . $request->service_time,
+            'admin_fee' => $adminFee,
+            'scheduled_at' => $request->service_date . ' ' . $request->service_time
+        ]);
+
+        // Buat transaksi
+        \App\Models\Transaction::create([
+            'transaction_code' => 'TRX-' . date('Ymd') . '-' . rand(1000, 9999),
+            'job_order_id' => $order->id,
+            'user_id' => $user->id,
+            'amount' => $service->price,
+            'admin_fee' => $adminFee,
+            'total_amount' => $finalPrice,
+            'payment_method' => $this->mapPaymentMethod($request->payment_method),
+            'status' => 'menunggu',
+            'expired_at' => now()->addDays(1),
         ]);
 
         // Notifikasi pembayaran
@@ -323,7 +436,7 @@ class PenggunaController extends Controller
             'data' => json_encode(['job_order_id' => $order->id]),
         ]);
 
-        return redirect()->route('pemesanan')->with('success', 'Pembayaran berhasil! Pesanan Anda sedang diproses.');
+        return redirect()->route('customer.pemesanan')->with('success', 'Pembayaran berhasil! Pesanan Anda sedang diproses.');
     }
 
     /**
@@ -363,7 +476,7 @@ class PenggunaController extends Controller
             'user' => $user,
             'total_orders' => JobOrder::where('user_id', $user->id)->count(),
             'completed_orders' => JobOrder::where('user_id', $user->id)
-                ->where('status', 'Selesai')->count(),
+                ->where('status', 'selesai')->count(),
             'member_since' => $user->created_at->diffForHumans()
         ];
 
@@ -420,15 +533,14 @@ class PenggunaController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'progress_step' => 'required|integer|min:1|max:4',
-            'status' => 'required|string'
+            'status' => 'required|string|in:menunggu,diterima,dikerjakan,selesai,dibatalkan'
         ]);
 
         $order = JobOrder::where('id', $id)
             ->where('user_id', $user->id)
             ->firstOrFail();
 
-        $order->updateProgress($request->progress_step, $request->status);
+        $order->updateProgress($request->status);
 
         // Buat notifikasi update progress
         Notification::create([
@@ -455,14 +567,19 @@ class PenggunaController extends Controller
 
         $order = JobOrder::where('id', $id)
             ->where('user_id', $user->id)
-            ->whereIn('status', ['Pending', 'Diproses'])
+            ->whereIn('status', ['menunggu', 'diterima'])
             ->firstOrFail();
 
         $order->update([
-            'status' => 'Dibatalkan',
-            'progress_step' => 0,
-            'informasi_pembayaran' => 'Pesanan dibatalkan oleh customer'
+            'status' => 'dibatalkan'
         ]);
+
+        // Update transaksi terkait
+        \App\Models\Transaction::where('job_order_id', $order->id)
+            ->update([
+                'status' => 'gagal',
+                'payment_details' => json_encode(['cancelled_reason' => 'Dibatalkan oleh pelanggan'])
+            ]);
 
         // Buat notifikasi pembatalan
         Notification::create([
@@ -484,7 +601,7 @@ class PenggunaController extends Controller
     {
         $user = Auth::user();
 
-        $order = JobOrder::with(['service', 'penyediaJasa.user'])
+        $order = JobOrder::with(['service', 'provider.user'])
             ->where('id', $id)
             ->where('user_id', $user->id)
             ->firstOrFail();
